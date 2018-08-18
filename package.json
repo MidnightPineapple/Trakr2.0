@@ -1,0 +1,37 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "watch": "node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "watch-poll": "npm run watch -- --watch-poll",
+        "hot": "node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "prod": "npm run production",
+        "production": "node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "relay": "relay-compiler --src ./src --schema ./schema.graphql --extensions js jsx"
+    },
+    "devDependencies": {
+        "axios": "^0.17",
+        "babel-plugin-relay": "^1.6.2",
+        "babel-preset-react": "^6.23.0",
+        "bootstrap-sass": "^3.3.7",
+        "cross-env": "^5.2.0",
+        "graphql": "^0.13.2",
+        "jquery": "^3.2",
+        "laravel-mix": "^1.0",
+        "lodash": "^4.17.4",
+        "prop-types": "^15.6.2",
+        "react": "^15.4.2",
+        "react-dom": "^15.4.2",
+        "react-relay": "^1.6.2",
+        "relay-compiler": "^1.6.2"
+    },
+    "__comment": [
+        "sudo npm install --no-bin-links :had to be done so that npm install would install acorn successfully",
+        "sudo npm install cross-env --no-bin-links : was done so laravel mix would work. and cross env gets installed",
+        "then we gotta switch all the cross-env calls in the scripts to have actual file paths cause .bin doesnt work",
+        "then run npm run dev to get all the cross env stuff set up apparently...",
+        "then run npm run watch to have hot reloads when code updates"
+    ],
+    "dependencies": {}
+}
