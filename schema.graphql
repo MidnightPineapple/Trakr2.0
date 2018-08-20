@@ -1,0 +1,672 @@
+# A relay node type
+type Client implements Node {
+  # A relay node id field
+  id: ID!
+  name: String
+  description: String
+  archived: Boolean
+
+  # A field for displaying Carbon dates
+  created_at(format: String, getter: String): String
+
+  # A field for displaying Carbon dates
+  updated_at(format: String, getter: String): String
+  team: Team
+  divisions(first: Int, last: Int, after: String, before: String): DivisionsConnection
+}
+
+type ClientEdge {
+  cursor: ID!
+  node: Client
+}
+
+type ClientsConnection {
+  total: Int
+  edges: [ClientEdge]
+  pageInfo: PageInfo
+}
+
+# A relay mutation input type
+input CreateClientInput {
+  name: String
+  description: String
+  team_id: ID!
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type CreateClientPayload {
+  client: Client
+  clientMutationId: String!
+}
+
+# A relay mutation input type
+input CreateDivisionInput {
+  name: String
+  description: String
+  client_id: ID!
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type CreateDivisionPayload {
+  division: Division
+  clientMutationId: String!
+}
+
+# A relay mutation input type
+input CreateEntryInput {
+  description: String
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type CreateEntryPayload {
+  entry: Entry
+  clientMutationId: String!
+}
+
+# A relay mutation input type
+input CreateProjectInput {
+  division_id: ID!
+  name: String!
+  description: String
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type CreateProjectPayload {
+  project: Project
+  clientMutationId: String!
+}
+
+# A relay mutation input type
+input CreateTaskInput {
+  name: String
+  description: String
+  project_id: ID!
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type CreateTaskPayload {
+  task: Task
+  clientMutationId: String!
+}
+
+# A relay mutation input type for submitting parameters of team creation
+input CreateTeamInput {
+  name: String!
+  description: String
+  clientMutationId: String!
+}
+
+# A relay mutation payload type for team creation
+type CreateTeamPayload {
+  team: Team
+  clientMutationId: String!
+}
+
+# A relay mutation input type
+input CreateUserInput {
+  first_name: String
+  last_name: String
+  username: String
+  email: String
+  password: String
+  password_confirmation: String
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type CreateUserPayload {
+  # The newly created user.
+  user: User
+  clientMutationId: String!
+}
+
+# A relay mutation input type
+input DeleteClientInput {
+  id: ID!
+  confirmation: Boolean!
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type DeleteClientPayload {
+  client: Client
+  clientMutationId: String!
+}
+
+# A relay mutation input type
+input DeleteDivisionInput {
+  id: ID!
+  confirmation: Boolean!
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type DeleteDivisionPayload {
+  division: Division
+  clientMutationId: String!
+}
+
+# A relay mutation input type
+input DeleteEntryInput {
+  id: ID!
+  confirmation: Boolean!
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type DeleteEntryPayload {
+  entry: Entry
+  clientMutationId: String!
+}
+
+# A relay mutation input type
+input DeleteProjectInput {
+  id: ID!
+  confirmation: Boolean!
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type DeleteProjectPayload {
+  project: Project
+  clientMutationId: String!
+}
+
+# A relay mutation input type
+input DeleteTaskInput {
+  id: ID!
+  confirmation: Boolean!
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type DeleteTaskPayload {
+  task: Task
+  clientMutationId: String!
+}
+
+# A relay mutation input type
+input DeleteTeamInput {
+  id: ID!
+  confirmation: Boolean!
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type DeleteTeamPayload {
+  team: Team
+  clientMutationId: String!
+}
+
+# A relay mutation input type for finding the user to delete
+input DeleteUserInput {
+  confirmation: Boolean!
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type DeleteUserPayload {
+  user: User
+  clientMutationId: String!
+}
+
+# A relay node type
+type Division implements Node {
+  # A relay node id field
+  id: ID!
+  name: String
+  description: String
+  archived: Boolean
+
+  # A field for displaying Carbon dates
+  created_at(format: String, getter: String): String
+
+  # A field for displaying Carbon dates
+  updated_at(format: String, getter: String): String
+  client: Client
+  team: Team
+  projects(first: Int, last: Int, after: String, before: String): ProjectsConnection
+}
+
+type DivisionEdge {
+  cursor: ID!
+  node: Division
+}
+
+type DivisionsConnection {
+  total: Int
+  edges: [DivisionEdge]
+  pageInfo: PageInfo
+}
+
+type EntriesConnection {
+  total: Int
+  edges: [EntryEdge]
+  pageInfo: PageInfo
+}
+
+# A relay node type for holding info about a particular work entry
+type Entry implements Node {
+  # A relay node id field
+  id: ID!
+  description: String
+  archived: Boolean
+  approved: Boolean
+
+  # A field for displaying Carbon dates
+  completed_at(format: String, getter: String): String
+
+  # A field for displaying Carbon dates
+  created_at(format: String, getter: String): String
+
+  # A field for displaying Carbon dates
+  updated_at(format: String, getter: String): String
+  task: Task
+  user: User
+}
+
+type EntryEdge {
+  cursor: ID!
+  node: Entry
+}
+
+# A relay node type for keeping track of app feedback
+type Feedback implements Node {
+  # A relay node id field
+  id: ID!
+  message: String!
+
+  # A field for displaying Carbon dates
+  created_at(format: String, getter: String): String
+
+  # A field for displaying Carbon dates
+  updated_at(format: String, getter: String): String
+  user: User
+}
+
+type Mutation {
+  # A relay mutation that updates user data
+  updateUser(input: UpdateUserInput!): UpdateUserPayload
+
+  # A relay mutation for deleting existing users.
+  deleteUser(input: DeleteUserInput!): DeleteUserPayload
+
+  # A relay mutation for team creation
+  createTeam(input: CreateTeamInput!): CreateTeamPayload
+
+  # A relay mutation that updates information about a team
+  updateTeam(input: UpdateTeamInput!): UpdateTeamPayload
+
+  # A relay mutation
+  deleteTeam(input: DeleteTeamInput!): DeleteTeamPayload
+
+  # A relay mutation
+  createClient(input: CreateClientInput!): CreateClientPayload
+
+  # A relay mutation
+  updateClient(input: UpdateClientInput): UpdateClientPayload
+
+  # A relay mutation
+  deleteClient(input: DeleteClientInput!): DeleteClientPayload
+
+  # A relay mutation
+  createDivision(input: CreateDivisionInput!): CreateDivisionPayload
+
+  # A relay mutation
+  updateDivision(input: UpdateDivisionInput!): UpdateDivisionPayload
+
+  # A relay mutation
+  deleteDivision(input: DeleteDivisionInput): DeleteDivisionPayload
+
+  # A relay mutation
+  createProject(input: CreateProjectInput!): CreateProjectPayload
+
+  # A relay mutation
+  updateProject(input: UpdateProjectInput!): UpdateProjectPayload
+
+  # A relay mutation
+  deleteProject(input: DeleteProjectInput!): DeleteProjectPayload
+
+  # A relay mutation
+  createTask(input: CreateTaskInput!): CreateTaskPayload
+
+  # A relay mutation
+  updateTask(input: UpdateTaskInput!): UpdateTaskPayload
+
+  # A relay mutation
+  deleteTask(input: DeleteTaskInput!): DeleteTaskPayload
+
+  # A relay mutation
+  createEntry(input: CreateEntryInput!): CreateEntryPayload
+
+  # A relay mutation
+  updateEntry(input: UpdateEntryInput!): UpdateEntryPayload
+
+  # A relay mutation
+  deleteEntry(input: DeleteEntryInput!): DeleteEntryPayload
+}
+
+# The relay node interface
+interface Node {
+  id: ID!
+}
+
+# The relay pageInfo type used by connections
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+# A relay node type
+type Permission implements Node {
+  # A relay node id field
+  id: ID!
+  name: String
+  description: String
+}
+
+type PermissionEdge {
+  cursor: ID!
+  node: Permission
+}
+
+type PermissionsConnection {
+  total: Int
+  edges: [PermissionEdge]
+  pageInfo: PageInfo
+}
+
+# A relay node type that stores info about a project
+type Project implements Node {
+  # A relay node id field
+  id: ID!
+  name: String
+  description: String
+  archived: Boolean
+  completed: Boolean
+
+  # A field for displaying Carbon dates
+  created_at(format: String, getter: String): String
+
+  # A field for displaying Carbon dates
+  updated_at(format: String, getter: String): String
+  division: Division
+  tasks(first: Int, last: Int, after: String, before: String): TasksConnection
+  users(first: Int, last: Int, after: String, before: String): UsersConnection
+}
+
+type ProjectEdge {
+  cursor: ID!
+  node: Project
+}
+
+type ProjectsConnection {
+  total: Int
+  edges: [ProjectEdge]
+  pageInfo: PageInfo
+}
+
+type Query {
+  # Queries for information about the current user
+  viewer: User
+
+  # A query
+  node(id: ID!): Node
+}
+
+# A relay node type for dispaying user roles
+type Role implements Node {
+  # A relay node id field
+  id: ID!
+  name: String
+  description: String
+  archived: Boolean
+
+  # A field for displaying Carbon dates
+  created_at(format: String, getter: String): String
+
+  # A field for displaying Carbon dates
+  updated_at(format: String, getter: String): String
+  team: Team
+  permissions(first: Int, last: Int, after: String, before: String): PermissionsConnection
+}
+
+type RoleEdge {
+  cursor: ID!
+  node: Role
+}
+
+type RolesConnection {
+  total: Int
+  edges: [RoleEdge]
+  pageInfo: PageInfo
+}
+
+# A relay node type for holding Tasks of Users in a project
+type Task implements Node {
+  # A relay node id field
+  id: ID!
+  name: String
+  description: String
+  archived: Boolean
+
+  # A field for displaying Carbon dates
+  created_at(format: String, getter: String): String
+
+  # A field for displaying Carbon dates
+  updated_at(format: String, getter: String): String
+  completed: Boolean
+  project: Project
+  team: Team
+  entries(first: Int, last: Int, after: String, before: String): EntriesConnection
+  users(first: Int, last: Int, after: String, before: String): UsersConnection
+}
+
+type TaskEdge {
+  cursor: ID!
+  node: Task
+}
+
+type TasksConnection {
+  total: Int
+  edges: [TaskEdge]
+  pageInfo: PageInfo
+}
+
+# A relay node type to hold a team of users
+type Team implements Node {
+  # A relay node id field
+  id: ID!
+  name: String
+  description: String
+
+  # A field for displaying Carbon dates
+  created_at(format: String, getter: String): String
+
+  # A field for displaying Carbon dates
+  updated_at(format: String, getter: String): String
+  users(first: Int, last: Int, after: String, before: String): UsersConnection
+  roles(first: Int, last: Int, after: String, before: String): RolesConnection
+  clients(first: Int, last: Int, after: String, before: String): ClientsConnection
+  projects(first: Int, last: Int, after: String, before: String): ProjectsConnection
+  templates(first: Int, last: Int, after: String, before: String): TemplatesConnection
+}
+
+type TeamEdge {
+  cursor: ID!
+  node: Team
+}
+
+type TeamsConnection {
+  total: Int
+  edges: [TeamEdge]
+  pageInfo: PageInfo
+}
+
+# A relay node type for storing project templates
+type Template implements Node {
+  # A relay node id field
+  id: ID!
+  name: String
+  description: String
+  archived: Boolean
+
+  # A field for displaying Carbon dates
+  created_at(format: String, getter: String): String
+
+  # A field for displaying Carbon dates
+  updated_at(format: String, getter: String): String
+  data: String!
+  team: Team
+}
+
+type TemplateEdge {
+  cursor: ID!
+  node: Template
+}
+
+type TemplatesConnection {
+  total: Int
+  edges: [TemplateEdge]
+  pageInfo: PageInfo
+}
+
+# A relay mutation input type
+input UpdateClientInput {
+  id: ID!
+  name: String
+  description: String
+  archived: Boolean
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type UpdateClientPayload {
+  client: Client
+  clientMutationId: String!
+}
+
+# A relay mutation input type
+input UpdateDivisionInput {
+  name: String
+  description: String
+  id: ID!
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type UpdateDivisionPayload {
+  division: Division
+  clientMutationId: String!
+}
+
+# A relay mutation input type
+input UpdateEntryInput {
+  id: ID!
+  description: String
+  completed_at: String
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type UpdateEntryPayload {
+  entry: Entry
+  clientMutationId: String!
+}
+
+# A relay mutation input type
+input UpdateProjectInput {
+  id: ID!
+  name: String
+  description: String
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type UpdateProjectPayload {
+  project: Project
+  clientMutationId: String!
+}
+
+# A relay mutation input type
+input UpdateTaskInput {
+  id: ID!
+  name: String
+  description: String
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type UpdateTaskPayload {
+  task: Task
+  clientMutationId: String!
+}
+
+# A relay mutation input type for updating team info
+input UpdateTeamInput {
+  id: ID!
+  name: String
+  description: String
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type UpdateTeamPayload {
+  team: Team
+  clientMutationId: String!
+}
+
+# A relay mutation input type for updating user details.
+input UpdateUserInput {
+  first_name: String
+  last_name: String
+  email: String
+  password: String
+  password_confirmation: String
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type UpdateUserPayload {
+  # The updated user.
+  user: User
+  clientMutationId: String!
+}
+
+# A relay node type to hold user information
+type User implements Node {
+  # A relay node id field
+  id: ID!
+  first_name: String
+  last_name: String
+  username: String
+  email: String
+
+  # A field for displaying Carbon dates
+  created_at(format: String, getter: String): String
+
+  # A field for displaying Carbon dates
+  updated_at(format: String, getter: String): String
+  teams(first: Int, last: Int, after: String, before: String): TeamsConnection
+  templates(first: Int, last: Int, after: String, before: String): TemplatesConnection
+  permissions(first: Int, last: Int, after: String, before: String): PermissionsConnection
+}
+
+type UserEdge {
+  cursor: ID!
+  node: User
+}
+
+type UsersConnection {
+  total: Int
+  edges: [UserEdge]
+  pageInfo: PageInfo
+}
+
