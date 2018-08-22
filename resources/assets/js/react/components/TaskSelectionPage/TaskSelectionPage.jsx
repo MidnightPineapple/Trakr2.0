@@ -21,7 +21,7 @@ class TaskSelectionPage extends Component {
   }
 
   handleClickTask(e) {
-    console.log(e.target.value);
+    // console.log(e.target.value);
   }
 
   handleClickNewTask() {

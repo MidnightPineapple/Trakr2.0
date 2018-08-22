@@ -47,9 +47,11 @@ return [
         'default' => [
             'query' => [
                 "viewer" => App\GraphQL\Query\ViewerQuery::class,
+                "user" => App\GraphQL\Query\UserQuery::class,
+                "project" => App\GraphQL\Query\ProjectQuery::class,
+                "task" => App\GraphQL\Query\TaskQuery::class,
             ],
             'mutation' => [
-                // "createUser" => App\GraphQL\Mutation\CreateUserMutation::class, // TODO: remove since we migrated to auth server
                 "updateUser" => App\GraphQL\Mutation\UpdateUserMutation::class,
                 "deleteUser" => App\GraphQL\Mutation\DeleteUserMutation::class,
                 "createTeam" => App\GraphQL\Mutation\CreateTeamMutation::class,
@@ -93,6 +95,7 @@ return [
     // ]
     //
     'types' => [
+        'Viewer' => App\GraphQL\Type\ViewerNode::class,
         'User' => App\GraphQL\Type\UserNode::class,
         "Team" => App\GraphQL\Type\TeamNode::class,
         "Client" => App\GraphQL\Type\ClientNode::class,
@@ -110,8 +113,6 @@ return [
         "UpdateClientPayload" => App\GraphQL\Type\UpdateClientPayload::class,
         "DeleteClientInput" => App\GraphQL\Type\DeleteClientInput::class,
         "DeleteClientPayload" => App\GraphQL\Type\DeleteClientPayload::class,
-        "CreateUserInput" => App\GraphQL\Type\CreateUserInput::class,
-        "CreateUserPayload" => App\GraphQL\Type\CreateUserPayload::class,
         "UpdateUserInput" => App\GraphQL\Type\UpdateUserInput::class,
         "UpdateUserPayload" => App\GraphQL\Type\UpdateUserPayload::class,
         "DeleteUserInput" => App\GraphQL\Type\DeleteUserInput::class,

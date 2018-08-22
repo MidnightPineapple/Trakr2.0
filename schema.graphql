@@ -108,24 +108,6 @@ type CreateTeamPayload {
 }
 
 # A relay mutation input type
-input CreateUserInput {
-  first_name: String
-  last_name: String
-  username: String
-  email: String
-  password: String
-  password_confirmation: String
-  clientMutationId: String!
-}
-
-# A relay mutation payload type
-type CreateUserPayload {
-  # The newly created user.
-  user: User
-  clientMutationId: String!
-}
-
-# A relay mutation input type
 input DeleteClientInput {
   id: ID!
   confirmation: Boolean!
@@ -415,7 +397,16 @@ type ProjectsConnection {
 
 type Query {
   # Queries for information about the current user
-  viewer: User
+  viewer: Viewer
+
+  # A query
+  user(id: ID!): User
+
+  # A query
+  project(id: ID!): Project
+
+  # A query
+  task(id: ID!): Task
 
   # A query
   node(id: ID!): Node
@@ -654,9 +645,6 @@ type User implements Node {
 
   # A field for displaying Carbon dates
   updated_at(format: String, getter: String): String
-  teams(first: Int, last: Int, after: String, before: String): TeamsConnection
-  templates(first: Int, last: Int, after: String, before: String): TemplatesConnection
-  permissions(first: Int, last: Int, after: String, before: String): PermissionsConnection
 }
 
 type UserEdge {
@@ -668,5 +656,24 @@ type UsersConnection {
   total: Int
   edges: [UserEdge]
   pageInfo: PageInfo
+}
+
+# A relay node type
+type Viewer implements Node {
+  # A relay node id field
+  id: ID!
+  first_name: String
+  last_name: String
+  username: String
+  email: String
+
+  # A field for displaying Carbon dates
+  created_at(format: String, getter: String): String
+
+  # A field for displaying Carbon dates
+  updated_at(format: String, getter: String): String
+  teams(first: Int, last: Int, after: String, before: String): TeamsConnection
+  templates(first: Int, last: Int, after: String, before: String): TemplatesConnection
+  permissions(first: Int, last: Int, after: String, before: String): PermissionsConnection
 }
 

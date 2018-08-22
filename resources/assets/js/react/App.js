@@ -12,11 +12,37 @@ export default class App extends Component {
     const searchParams = (new URL( window.location.href.replace("#","?") )).searchParams;
     const token = searchParams.get("access_token") || this.authorize();
     setAccessToken(token);
-
     this.state = {
       isAuthenticated: !!token,
       token,
+      appState:{
+        teamId:null,
+        projectId:null,
+        taskId:null,
+      }
     }
+
+    this.state.appState.setTeamId = this.setTeamId.bind(this);
+    this.state.appState.setProjectId = this.setProjectId.bind(this);
+    this.state.appState.setTaskId = this.setTaskId.bind(this);
+  }
+
+  setTeamId(id){
+    const newState = Object.assign({}, this.state.appState)
+    newState.teamId = id;
+    this.setState({appState: newState})
+  }
+
+  setProjectId(id){
+    const newState = Object.assign({}, this.state.appState)
+    newState.projectId = id;
+    this.setState({appState: newState})
+  }
+
+  setTaskId(id){
+    const newState = Object.assign({}, this.state.appState)
+    newState.taskId = id;
+    this.setState({appState: newState})
   }
 
   authorize() {
@@ -35,7 +61,7 @@ export default class App extends Component {
     if(!isAuthenticated) return <div>Please Log in</div>
 
     return (
-      <Router />
+      <Router appState={this.state.appState} />
     );
   }
 }

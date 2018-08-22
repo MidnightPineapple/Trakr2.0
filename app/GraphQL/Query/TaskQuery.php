@@ -7,27 +7,29 @@ use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use GraphQL;
 
-use App\User;
+use App\Task;
 
-class ViewerQuery extends BaseQuery
+class TaskQuery extends BaseQuery
 {
     protected $attributes = [
-        'name' => 'ViewerQuery',
-        'description' => 'Queries for information about the current user'
+        'name' => 'TaskQuery',
+        'description' => 'A query'
     ];
 
     protected function type()
     {
-        return GraphQL::type("Viewer");
+        return GraphQL::type("Task");
     }
 
     protected function args()
     {
-        return [];
+        return [
+            "id" => [ "type" => Type::nonNull(Type::id()) ]
+        ];
     }
 
     public function resolve($root, $args, $context, ResolveInfo $info)
     {
-        return $context;
+        return Task::findByNodeId($args['id']);
     }
-} 
+}

@@ -1,30 +1,33 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import { graphql } from 'react-relay';
-import { QueryRenderer } from './lib';
-import { Dashboard } from './screens';
+import { BrowserRouter, Route, Redirect } from 'react-router-dom';
+import { Dashboard, TeamsPage, ProjectsPage, TaskSelectionPage } from './components';
 
-class Router extends Component {
+export default class Router extends Component {
 
-    render() {
+  render() {
 
-        const { viewer } = this.props;
-    
-        return (
-          <BrowserRouter>
-            <div>
-              <Route path="/" exact render={() => <Dashboard viewer={viewer}/> } />
-            </div>
-          </BrowserRouter>
-        );
-      }
+    const { appState } = this.props;
 
+    return (
+      <BrowserRouter>
+        <div className="container" >
+            <Route path="/" exact render={props => <Redirecter {...props} appState={appState} /> } />
+            <Route path="/dashboard" render={props => <Dashboard {...props} appState={appState} /> } />
+            <Route path="/teams" render={props => <TeamsPage {...props} appState={appState} />} />
+            <Route path="/projects" render={props => <ProjectsPage {...props} appState={appState} />} />
+            <Route path="/tasks" render={props => <TaskSelectionPage {...props} appState={appState}/>} />
+        </div>
+      </BrowserRouter>
+    );
+  }
 }
 
-export default QueryRenderer(Router, graphql`
-  query RouterAllQuery {
-    viewer {
-      ...Dashboard_viewer
-    }
+class Redirecter extends Component {
+  render() {
+    const { appState } = this.props; 
+    if(!appState.teamId) return <Redirect to={{ pathname:"/teams" }} />
+    if(!appState.projectId) return <Redirect to={{ pathname:"/projects" }} />
+    if(!appState.taskId) return <Redirect to={{ pathname:"/tasks" }} />
+    return <Redirect to={{ pathname:"/dashboard" }} />
   }
-`);
+}

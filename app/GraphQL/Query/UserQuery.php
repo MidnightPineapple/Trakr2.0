@@ -9,25 +9,27 @@ use GraphQL;
 
 use App\User;
 
-class ViewerQuery extends BaseQuery
+class UserQuery extends BaseQuery
 {
     protected $attributes = [
-        'name' => 'ViewerQuery',
-        'description' => 'Queries for information about the current user'
+        'name' => 'UserQuery',
+        'description' => 'A query'
     ];
 
     protected function type()
     {
-        return GraphQL::type("Viewer");
+        return GraphQL::type("User");
     }
 
     protected function args()
     {
-        return [];
+        return [
+            "id" => [ "type" => Type::nonNull(Type::id()) ]
+        ];
     }
 
     public function resolve($root, $args, $context, ResolveInfo $info)
     {
-        return $context;
+        return User::findByNodeId($args['id']);
     }
-} 
+}

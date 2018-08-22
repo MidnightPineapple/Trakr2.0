@@ -5,7 +5,7 @@ class ButtonBox extends Component {
 
     return (
       <div className = "col-md-6 col-lg-3">
-        <div className=" team-display">{this.props.title}</div>
+        <button onClick={() => this.props.onClick()} className=" team-display">{this.props.title}</button>
       </div>
     );
   }
