@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Dashboard } from './screens';
 import './App.css';
 import { serverUrl, authUri, authRedirect, authClientId } from './config';
 import { setAccessToken } from './environment';
+import Router from './Router';
 
-class App extends Component {
+export default class App extends Component {
 
   constructor() {
     super();
@@ -32,17 +31,12 @@ class App extends Component {
   render() {
 
     const { isAuthenticated } = this.state;
-    
+
     if(!isAuthenticated) return <div>Please Log in</div>
 
     return (
-      <Router>
-        <div>
-          <Route path="/" exact component={Dashboard} />
-        </div>
-      </Router>
+      <Router />
     );
   }
 }
 
-export default App;

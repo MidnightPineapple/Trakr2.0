@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 0f1d599850e3e0239fd88b4d30da984a
+ * @relayHash 40b886d2da875e8ccf16f955b1c97187
  */
 
 /* eslint-disable */
@@ -12,9 +12,7 @@ import type { ConcreteRequest } from 'relay-runtime';
 export type DashboardQueryVariables = {||};
 export type DashboardQueryResponse = {|
   +viewer: ?{|
-    +id: string,
-    +first_name: ?string,
-    +last_name: ?string,
+    +id: string
   |}
 |};
 export type DashboardQuery = {|
@@ -28,8 +26,6 @@ export type DashboardQuery = {|
 query DashboardQuery {
   viewer {
     id
-    first_name
-    last_name
   }
 }
 */
@@ -51,20 +47,6 @@ var v0 = [
         "name": "id",
         "args": null,
         "storageKey": null
-      },
-      {
-        "kind": "ScalarField",
-        "alias": null,
-        "name": "first_name",
-        "args": null,
-        "storageKey": null
-      },
-      {
-        "kind": "ScalarField",
-        "alias": null,
-        "name": "last_name",
-        "args": null,
-        "storageKey": null
       }
     ]
   }
@@ -74,7 +56,7 @@ return {
   "operationKind": "query",
   "name": "DashboardQuery",
   "id": null,
-  "text": "query DashboardQuery {\n  viewer {\n    id\n    first_name\n    last_name\n  }\n}\n",
+  "text": "query DashboardQuery {\n  viewer {\n    id\n  }\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
@@ -93,5 +75,5 @@ return {
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '948e2b170837cae55bf186933a2296ae';
+(node/*: any*/).hash = '1e9fa25f89a103638ca6641d2aea09a3';
 module.exports = node;

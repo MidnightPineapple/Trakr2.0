@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { QueryRenderer } from '../lib';
-import { graphql } from 'react-relay';
+import { createFragmentContainer, graphql } from 'react-relay';
 
 class Dashboard extends Component {
   render() {
-
     return (
         <div>
             Hello World {this.props.viewer.first_name}
@@ -13,12 +11,10 @@ class Dashboard extends Component {
   }
 }
 
-export default QueryRenderer(Dashboard, graphql`
-query DashboardQuery {
-    viewer {
-        id
-        first_name
-        last_name
-    }
+export default createFragmentContainer(Dashboard, graphql`
+fragment Dashboard_viewer on User {
+    id
+    first_name
+    last_name
 }
 `);

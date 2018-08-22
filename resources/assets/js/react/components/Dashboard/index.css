@@ -1,0 +1,13 @@
+.entry-submit {
+  width:150px;
+  height:150px;
+  border: 1px solid black;
+  border-radius:75px;
+  background-color: #42f48c;
+}
+
+.tasks-display {
+  border: 1px solid black;
+  border-radius: 10px;
+  height:200px;
+}

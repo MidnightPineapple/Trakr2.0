@@ -1,0 +1,30 @@
+.clients-container {
+  width:100%;
+  overflow-x:scroll;
+  white-space: nowrap;
+  display:flex;
+  flex-direction: row;
+}
+
+.client-display {
+  margin:2px;
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: skyblue;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  flex-wrap: wrap;
+}
+
+.division-display {
+  width:45%;
+  margin:2px;
+  border:1px solid black;
+  border-radius: 5px;
+  background-color:yellowgreen;
+  overflow:hidden;
+  display:flex;
+  flex-wrap: wrap;
+  flex-direction:column;
+}

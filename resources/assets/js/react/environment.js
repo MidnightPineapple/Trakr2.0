@@ -4,7 +4,7 @@ import {
     RecordSource,
     Store,
 } from 'relay-runtime';
-import { serverUrl, graphQLUri } from './config';  
+import { graphQLUri } from './config';  
   
 let accessToken = "";
 let csrfToken = Array.from(document.getElementsByTagName('meta'))

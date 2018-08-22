@@ -1,0 +1,10 @@
+.task-selector {
+  display:flex;
+  flex-direction:column;
+}
+
+.task-selector button {
+  margin-bottom: 5px;
+  border:1px solid black;
+  background-color:skyblue;
+}

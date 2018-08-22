@@ -19,11 +19,11 @@
         "cross-env": "^5.2.0",
         "graphql": "^0.13.2",
         "jquery": "^3.2",
-        "laravel-mix": "^1.0",
+        "laravel-mix": "^1.7.2",
         "lodash": "^4.17.4",
         "prop-types": "^15.6.2",
-        "react": "^15.4.2",
-        "react-dom": "^15.4.2",
+        "react": "^16.4.2",
+        "react-dom": "^16.4.2",
         "react-relay": "^1.6.2",
         "relay-compiler": "^1.6.2"
     },
@@ -33,9 +33,12 @@
         "then we gotta switch all the cross-env calls in the scripts to have actual file paths cause .bin doesnt work",
         "then run npm run dev to get all the cross env stuff set up apparently...",
         "then run npm run watch to have hot reloads when code updates",
-        "If I want relay --watch to work, I'll have to build watchman in homestead with a make"
+        "If I want relay --watch to work, I'll have to build watchman in homestead with a make",
+        "relay needed a newer react@^16.3.0 than what laravel provided. be careful about npm warnings goddamn",
+        "notice if we upgrade react, react dom breaks unless we have the corresponding version of it"
     ],
     "dependencies": {
+        "ajv": "^6.5.3",
         "react-router-dom": "^4.3.1"
     }
 }
