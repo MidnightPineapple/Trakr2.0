@@ -7,6 +7,8 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Folklore\GraphQL\Support\Field as BaseField;
 use GraphQL;
 
+use Carbon\Carbon;
+
 class DateField extends BaseField
 {
     protected $attributes = [
@@ -31,13 +33,14 @@ class DateField extends BaseField
 
     public function resolve($root, $args, $content, ResolveInfo $info)
     {
+        $date = Carbon::parse($root[$info->fieldName]);
         if( !array_key_exists("format", $args) && !array_key_exists("getter", $args) ) {
-            return $root[$info->fieldName]->toCookieString();
+            return $date->toCookieString();
         }
         if( array_key_exists("getter", $args) ) { 
-            return $root[$info->fieldName]->{$args['getter']};
+            return $date->{$args['getter']};
         } else {
-            return $root[$info->fieldName]->format($args['format']);
+            return $date->format($args['format']);
         }
     }
 }

@@ -11,3 +11,8 @@
   border-radius: 10px;
   height:200px;
 }
+
+.tasks-display select {
+  width:100%;
+  height:75%;
+}

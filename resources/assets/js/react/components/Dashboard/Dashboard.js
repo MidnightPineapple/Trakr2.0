@@ -1,38 +1,44 @@
 import React, { Component } from 'react';
 import "./index.css"
-
-const tasks = { edges: [
-  { node: { id:"ASDF1", name:"Task Name 1", description:"I thinnk im doing sth" } },
-  { node: { id:"ASDF2", name:"Task Name 2", description:"I thinnk im doing sth" } },
-  { node: { id:"ASDF3", name:"Task Name 3", description:"I thinnk im doing sth" } },
-  { node: { id:"ASDF4", name:"Task Name 4", description:"I thinnk im doing sth" } },
-  { node: { id:"ASDF5", name:"Task Name 5", description:"I thinnk im doing sth" } },
-  { node: { id:"ASDF6", name:"Task Name 6", description:"I thinnk im doing sth" } },
-]}
-
-const entries = { edges: [
-  { node: { id: "ASDFFDSA", task:{ name:"Task 1", id:"asdfadsfawefsdf" }, project:"Proj 1", completed_at:Date.now()-10000, description:"Ipsum Lorem"}},
-  { node: { id: "ASDFFDSA", task:{ name:"Task 2", id:"asdfadsfawefsdf" }, project:"Proj 1", completed_at:Date.now()-10000, description:"Ipsum Lorem"}},
-  { node: { id: "ASDFFDSA", task:{ name:"Task 3", id:"asdfadsfawefsdf" }, project:"Proj 1", completed_at:Date.now()-10000, description:"Ipsum Lorem"}},
-  { node: { id: "ASDFFDSA", task:{ name:"Task 4", id:"asdfadsfawefsdf" }, project:"Proj 1", completed_at:Date.now()-10000, description:"Ipsum Lorem"}},
-  { node: { id: "ASDFFDSA", task:{ name:"Task 5", id:"asdfadsfawefsdf" }, project:"Proj 1", completed_at:Date.now()-10000, description:"Ipsum Lorem"}},
-]}
+import { QueryRenderer } from '../../lib';
+import { graphql } from 'react-relay';
 
 class Dashboard extends Component {
 
   constructor() {
     super();
+    
     this.state = {
-      currentTask:tasks.edges[0].node.id
+      newTaskInputVisible:false,
+      newTaskName:"",
     }
   }
 
   handleChangeTask(event) {
-    // console.log(event.target.value)
-    this.setState({currentTask:event.target.value})
+    this.props.appState.setTaskId(event.target.value);
+  }
+
+  handleClickNewTask() {
+    this.setState({newTaskInputVisible:true})
+  }
+
+  handleInputNewTask(e) {
+    this.setState({newTaskName:e.target.value})
+  }
+
+  handleSubmitNewTask() {
+    // new task mutation here
   }
 
   render() {
+
+    const entries = this.props.project.tasks.edges.map( ({node}) => node.entries.edges )
+    .reduce((ag, v) => [...ag, ...v] , [])
+    .sort( (e1,e2) => {
+      if(e1.completed_at > e2.completed_at) return -1;
+      if(e1.completed_at < e2.completed_at) return 1;
+      return 0;
+    })
 
     return (
         <div>
@@ -43,12 +49,23 @@ class Dashboard extends Component {
               <div className="col-sm-4">
                 <button className="entry-submit">&#9654;</button>
               </div>
-              <select multiple set={1} onChange={this.handleChangeTask.bind(this)} className="col-sm-8 tasks-display">
-                {tasks.edges.map( ({node}, key) => (
-                  <option value={node.id} key={key}>{node.name}</option>
-                ))}
-                <option value="new">New Task</option>
-              </select>
+              <div className="col-sm-8 tasks-display">
+                <select multiple set={1} onChange={this.handleChangeTask.bind(this)}>
+                  {this.props.project.tasks.edges.map( ({node}, key) => (
+                    <option value={node.id} key={key}>{node.name}</option>
+                  ))}
+                </select>
+                {
+                  this.state.newTaskInputVisible
+                  ? (
+                    <div>
+                      <input onChange={this.handleInputNewTask.bind(this)} value={this.state.newTaskName} placeholder="New Task Name" />
+                      <button onClick={this.handleSubmitNewTask.bind(this)}>+</button>
+                    </div>
+                  )
+                  : <button onClick={this.handleClickNewTask.bind(this)}>New Task</button>
+                }
+              </div>
             </div>
             <table className="container-fluid">
               <thead>
@@ -59,8 +76,8 @@ class Dashboard extends Component {
                 </tr>
               </thead>
               <tbody>
-                {entries.edges.map( ({node}, key) => {
-                  const completedAt = new Date(node.completed_at)
+                {entries.map( ({node}, key) => {
+                  const completedAt = new Date(parseInt(node.completed_at))
                   return (
                   <tr key={key}>
                     <td>{node.task.name}</td>
@@ -87,4 +104,31 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+export default QueryRenderer(Dashboard, graphql`
+query DashboardAllQuery($projectId:ID!) {
+  project(id:$projectId) {
+    tasks(last:100) @connection(key:"Dashboard_tasks", filters:[]) {
+      edges {
+        node {
+          id
+          name
+          description
+          entries(last:100) @connection(key:"Dashboard_entries", filters:[]) {
+            edges {
+              node {
+                id 
+                description
+                completed_at(getter:"timestamp")
+                task {
+                  name
+                  id
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`, props => ({projectId:props.appState.projectId}));
