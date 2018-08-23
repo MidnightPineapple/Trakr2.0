@@ -1,45 +1,30 @@
 import React, { Component } from 'react';
 import "./index.css";
-
-const clients = { edges: [
-  { node: { id:"asdf", name: "Harley Quinn Co.", description: "Buys stuff", divisions: {
-    edges: [
-      { node: { id:"asdf",name:"Well To Do Division", description: "Hi we do stuff", projects:{
-        edges: [
-          { node: { id:"asdf",name: "PROJ1", description: "better finish this on time" }},
-          { node: { id:"asdf",name: "PROJ2", description: "I actually have a ridiculous amount to do" }},
-        ]
-      } }}
-    ]
-  }}},
-  { node: { id:"asdf",name: "Harley Quinn Co.", description: "Buys stuff", divisions: {
-    edges: [
-      { node: { id:"asdf",name:"Well To Do Division", description: "Hi we do stuff", projects:{
-        edges: [
-          { node: {id:"asdf", name: "PROJ1", description: "better finish this on time" }},
-          { node: {id:"asdf", name: "PROJ2", description: "I actually have a ridiculous amount to do" }},
-        ]
-      } }}
-    ]
-  }}}
-]}
+import { QueryRenderer } from '../../lib';
+import { graphql } from 'react-relay';
 
 class ProjectsPage extends Component {
+
+  handleClickProject(id) {
+    this.props.appState.setProjectId(id);
+    this.props.history.push("/");
+  }
 
   render() {
     return (
       <div>
         <h1>My Projects</h1>
         <div className="clients-container">
-          {clients.edges.map( ({node}, key) =>
+          {this.props.team.clients.edges.map( ({node}, key) =>
             <div className = "client-display" key={key}>
-              <p>{node.name}</p>
+              <p className="vertical-text">Client: {node.name}</p>
+              <br/>
               {node.divisions.edges.map( ({node}, key) =>
                 <div className="division-display" key={key}>
-                  <p>{node.name}</p>
+                  <p >Division: {node.name}</p>
                   {node.projects.edges.map( ({node}, key) =>
                     <div className="project-display" key={key}>
-                      <h3>{node.name}</h3>
+                      <button onClick={() => this.handleClickProject(node.id)}>{node.name}</button>
                     </div>
                   )}
                 </div>
@@ -53,4 +38,41 @@ class ProjectsPage extends Component {
 }
 
 
-export default ProjectsPage;
+export default QueryRenderer(ProjectsPage, graphql`
+query ProjectsPageAllQuery($id: ID!) {
+  team(id: $id) {
+    clients( last:100 ) @connection(key:"ProjectsPage_clients", filters:[]) {
+      edges {
+        node {
+          id
+          name 
+          divisions( last:100 ) @connection(key:"ProjectsPage_divisions", filters:[]) {
+            edges {
+              node {
+                id
+                name 
+                projects(last:100) @connection(key:"ProjectsPage_projects", filters:[]) {
+                  edges {
+                    node {
+                      id
+                      name 
+                      description
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  } 
+}
+`, props => {
+
+  console.log(props.appState)
+
+  return {
+    id: props.appState.teamId
+  }
+} );

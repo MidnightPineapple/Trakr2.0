@@ -4,18 +4,6 @@ import "./index.css"
 import { QueryRenderer } from '../../lib';
 import { graphql } from 'react-relay';
 
-// const teams = { edges: [
-//   { node: { id:"asdfasdfasdf", name:"The Avengers", description:"We do stuff" }},
-//   { node: { id:"asdfasdfasdf", name:"The Avengers", description:"We do stuff" }},
-//   { node: { id:"asdfasdfasdf", name:"The Avengers", description:"We do stuff" }},
-//   { node: { id:"asdfasdfasdf", name:"The Avengers", description:"We do stuff" }},
-//   { node: { id:"asdfasdfasdf", name:"The Avengers", description:"We do stuff" }},
-//   { node: { id:"asdfasdfasdf", name:"The Avengers", description:"We do stuff" }},
-//   { node: { id:"asdfasdfasdf", name:"The Avengers", description:"We do stuff" }},
-//   { node: { id:"asdfasdfasdf", name:"The Avengers", description:"We do stuff" }},
-//   { node: { id:"asdfasdfasdf", name:"The Avengers", description:"We do stuff" }},
-// ]}
-
 class TeamsPage extends Component {
 
   setTeam(id) {
@@ -49,7 +37,7 @@ export default QueryRenderer(TeamsPage, graphql`
 query TeamsPageViewerQuery {
   viewer {
     id
-    teams(last:100) @connection(key:"TeamsPage_teams") {
+    teams(last:100) @connection(key:"TeamsPage_teams", filters:[]) {
       edges {
         node {
           id

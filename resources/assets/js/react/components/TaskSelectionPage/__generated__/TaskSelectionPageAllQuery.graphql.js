@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 3d9e3bae2e4e78ee7f229061ae4d6d3a
+ * @relayHash c9d6e354a8d942d9ebb62619c444f7cd
  */
 
 /* eslint-disable */
@@ -9,11 +9,12 @@
 
 /*::
 import type { ConcreteRequest } from 'relay-runtime';
-export type TeamsPageViewerQueryVariables = {||};
-export type TeamsPageViewerQueryResponse = {|
-  +viewer: ?{|
-    +id: string,
-    +teams: ?{|
+export type TaskSelectionPageAllQueryVariables = {|
+  id: string
+|};
+export type TaskSelectionPageAllQueryResponse = {|
+  +project: ?{|
+    +tasks: ?{|
       +edges: ?$ReadOnlyArray<?{|
         +node: ?{|
           +id: string,
@@ -21,23 +22,22 @@ export type TeamsPageViewerQueryResponse = {|
           +description: ?string,
         |}
       |}>
-    |},
-    +first_name: ?string,
-    +last_name: ?string,
+    |}
   |}
 |};
-export type TeamsPageViewerQuery = {|
-  variables: TeamsPageViewerQueryVariables,
-  response: TeamsPageViewerQueryResponse,
+export type TaskSelectionPageAllQuery = {|
+  variables: TaskSelectionPageAllQueryVariables,
+  response: TaskSelectionPageAllQueryResponse,
 |};
 */
 
 
 /*
-query TeamsPageViewerQuery {
-  viewer {
-    id
-    teams(last: 100) {
+query TaskSelectionPageAllQuery(
+  $id: ID!
+) {
+  project(id: $id) {
+    tasks(last: 100) {
       edges {
         node {
           id
@@ -52,28 +52,43 @@ query TeamsPageViewerQuery {
         startCursor
       }
     }
-    first_name
-    last_name
+    id
   }
 }
 */
 
 const node/*: ConcreteRequest*/ = (function(){
-var v0 = {
+var v0 = [
+  {
+    "kind": "LocalArgument",
+    "name": "id",
+    "type": "ID!",
+    "defaultValue": null
+  }
+],
+v1 = [
+  {
+    "kind": "Variable",
+    "name": "id",
+    "variableName": "id",
+    "type": "ID!"
+  }
+],
+v2 = {
   "kind": "ScalarField",
   "alias": null,
   "name": "id",
   "args": null,
   "storageKey": null
 },
-v1 = [
+v3 = [
   {
     "kind": "LinkedField",
     "alias": null,
     "name": "edges",
     "storageKey": null,
     "args": null,
-    "concreteType": "TeamEdge",
+    "concreteType": "TaskEdge",
     "plural": true,
     "selections": [
       {
@@ -82,10 +97,10 @@ v1 = [
         "name": "node",
         "storageKey": null,
         "args": null,
-        "concreteType": "Team",
+        "concreteType": "Task",
         "plural": false,
         "selections": [
-          v0,
+          v2,
           {
             "kind": "ScalarField",
             "alias": null,
@@ -144,20 +159,6 @@ v1 = [
     ]
   }
 ],
-v2 = {
-  "kind": "ScalarField",
-  "alias": null,
-  "name": "first_name",
-  "args": null,
-  "storageKey": null
-},
-v3 = {
-  "kind": "ScalarField",
-  "alias": null,
-  "name": "last_name",
-  "args": null,
-  "storageKey": null
-},
 v4 = [
   {
     "kind": "Literal",
@@ -169,9 +170,9 @@ v4 = [
 return {
   "kind": "Request",
   "operationKind": "query",
-  "name": "TeamsPageViewerQuery",
+  "name": "TaskSelectionPageAllQuery",
   "id": null,
-  "text": "query TeamsPageViewerQuery {\n  viewer {\n    id\n    teams(last: 100) {\n      edges {\n        node {\n          id\n          name\n          description\n          __typename\n        }\n        cursor\n      }\n      pageInfo {\n        hasPreviousPage\n        startCursor\n      }\n    }\n    first_name\n    last_name\n  }\n}\n",
+  "text": "query TaskSelectionPageAllQuery(\n  $id: ID!\n) {\n  project(id: $id) {\n    tasks(last: 100) {\n      edges {\n        node {\n          id\n          name\n          description\n          __typename\n        }\n        cursor\n      }\n      pageInfo {\n        hasPreviousPage\n        startCursor\n      }\n    }\n    id\n  }\n}\n",
   "metadata": {
     "connection": [
       {
@@ -179,81 +180,76 @@ return {
         "cursor": null,
         "direction": "backward",
         "path": [
-          "viewer",
-          "teams"
+          "project",
+          "tasks"
         ]
       }
     ]
   },
   "fragment": {
     "kind": "Fragment",
-    "name": "TeamsPageViewerQuery",
+    "name": "TaskSelectionPageAllQuery",
     "type": "Query",
     "metadata": null,
-    "argumentDefinitions": [],
+    "argumentDefinitions": v0,
     "selections": [
       {
         "kind": "LinkedField",
         "alias": null,
-        "name": "viewer",
+        "name": "project",
         "storageKey": null,
-        "args": null,
-        "concreteType": "Viewer",
+        "args": v1,
+        "concreteType": "Project",
         "plural": false,
         "selections": [
-          v0,
           {
             "kind": "LinkedField",
-            "alias": "teams",
-            "name": "__TeamsPage_teams_connection",
+            "alias": "tasks",
+            "name": "__TaskSelectionPage_tasks_connection",
             "storageKey": null,
             "args": null,
-            "concreteType": "TeamsConnection",
+            "concreteType": "TasksConnection",
             "plural": false,
-            "selections": v1
-          },
-          v2,
-          v3
+            "selections": v3
+          }
         ]
       }
     ]
   },
   "operation": {
     "kind": "Operation",
-    "name": "TeamsPageViewerQuery",
-    "argumentDefinitions": [],
+    "name": "TaskSelectionPageAllQuery",
+    "argumentDefinitions": v0,
     "selections": [
       {
         "kind": "LinkedField",
         "alias": null,
-        "name": "viewer",
+        "name": "project",
         "storageKey": null,
-        "args": null,
-        "concreteType": "Viewer",
+        "args": v1,
+        "concreteType": "Project",
         "plural": false,
         "selections": [
-          v0,
           {
             "kind": "LinkedField",
             "alias": null,
-            "name": "teams",
-            "storageKey": "teams(last:100)",
+            "name": "tasks",
+            "storageKey": "tasks(last:100)",
             "args": v4,
-            "concreteType": "TeamsConnection",
+            "concreteType": "TasksConnection",
             "plural": false,
-            "selections": v1
+            "selections": v3
           },
           {
             "kind": "LinkedHandle",
             "alias": null,
-            "name": "teams",
+            "name": "tasks",
             "args": v4,
             "handle": "connection",
-            "key": "TeamsPage_teams",
+            "key": "TaskSelectionPage_tasks",
             "filters": []
           },
-          v2,
-          v3
+          v2
         ]
       }
     ]
@@ -261,5 +257,5 @@ return {
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '4248488963a8f34878163bd6b9dd3155';
+(node/*: any*/).hash = '56891b8ecf64f07b6dcff74d642e9544';
 module.exports = node;

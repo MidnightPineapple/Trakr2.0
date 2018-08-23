@@ -409,6 +409,9 @@ type Query {
   task(id: ID!): Task
 
   # A query
+  team(id: ID!): Team
+
+  # A query
   node(id: ID!): Node
 }
 

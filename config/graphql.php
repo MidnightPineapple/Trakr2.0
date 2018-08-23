@@ -50,6 +50,7 @@ return [
                 "user" => App\GraphQL\Query\UserQuery::class,
                 "project" => App\GraphQL\Query\ProjectQuery::class,
                 "task" => App\GraphQL\Query\TaskQuery::class,
+                "team" => App\GraphQL\Query\TeamQuery::class,
             ],
             'mutation' => [
                 "updateUser" => App\GraphQL\Mutation\UpdateUserMutation::class,

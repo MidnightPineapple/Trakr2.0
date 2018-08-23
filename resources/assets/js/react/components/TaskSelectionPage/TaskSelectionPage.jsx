@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import "./index.css";
+import { QueryRenderer } from '../../lib';
+import { graphql } from 'react-relay';
 
 const tasks = { edges: [
   { node: { id:"ASDF1", name:"Task Name 1", description:"I thinnk im doing sth" } },
@@ -15,17 +17,18 @@ class TaskSelectionPage extends Component {
   constructor() {
     super();
     this.state = {
-      enterNewTask:false,
       newTask:"",
+      showNewTaskEntry:false
     }
   }
 
-  handleClickTask(e) {
-    // console.log(e.target.value);
+  handleClickTask(id) {
+    this.props.appState.setTaskId(id);
+    this.props.history.push("/")
   }
 
   handleClickNewTask() {
-    this.setState({ enterNewTask:true });
+    this.setState({ showNewTaskEntry:true });
   }
 
   onEnterNewTask(e) {
@@ -42,11 +45,11 @@ class TaskSelectionPage extends Component {
       <div>
         <h1>Wha'cha working on? </h1>
         <div className="task-selector container-fluid">
-          { tasks.edges.map( ({node}, key) =>
-            <button value={node.id} key={key} onClick={this.handleClickTask.bind(this)}>{node.name}</button>
+          { this.props.project.tasks.edges.map( ({node}, key) =>
+            <button value={node.id} key={key} onClick={() => this.handleClickTask(node.id)}>{node.name}</button>
           )}
           {
-            this.state.enterNewTask
+            this.state.showNewTaskEntry
             ? (
               <form onSubmit={this.handleSubmitNewTask.bind(this)}>
                 <input placeholder="New Task Name" onChange={this.onEnterNewTask.bind(this)} />
@@ -62,4 +65,18 @@ class TaskSelectionPage extends Component {
 
 }
 
-export default TaskSelectionPage;
+export default QueryRenderer(TaskSelectionPage, graphql`
+query TaskSelectionPageAllQuery($id: ID!) {
+ project(id:$id) {
+   tasks( last:100 ) @connection(key:"TaskSelectionPage_tasks", filters:[]) {
+     edges {
+       node {
+         id
+         name
+         description
+       }
+     }
+   } 
+ }  
+}
+`, props => ({ id: props.appState.projectId }));
