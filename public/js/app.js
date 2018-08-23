@@ -68157,9 +68157,11 @@ var Dashboard = function (_Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   'td',
                   null,
-                  completedAt.getMonth(),
+                  completedAt.getMonth() + 1,
                   '/',
                   completedAt.getDate(),
+                  '/',
+                  ("" + completedAt.getFullYear()).slice(2),
                   ' @ ',
                   completedAt.getHours(),
                   ':',

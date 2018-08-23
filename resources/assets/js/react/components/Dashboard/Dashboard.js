@@ -83,9 +83,11 @@ class Dashboard extends Component {
                     <td>{node.task.name}</td>
                     <td>
                       {
-                        completedAt.getMonth()
+                        completedAt.getMonth()+1
                       }/{
                         completedAt.getDate()
+                      }/{
+                        (""+completedAt.getFullYear()).slice(2)
                       } @ {
                         completedAt.getHours()
                       }:{
