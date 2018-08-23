@@ -9,6 +9,8 @@ class Team extends BaseModel
         "name", "description"
     ];
 
+    /* Relationships */
+
     public function users()
     {
         return $this->belongsToMany(User::class);
@@ -38,4 +40,15 @@ class Team extends BaseModel
     {
         return $this->hasManyThrough(Division::class, Client::class);
     }
+
+    /* Helpers */
+
+    public function invite() 
+    {
+        $invite = Invitation::make();
+        $invite->team()->associate($this->id);
+        $invite->save();
+        return $invite;
+    }
+
 }

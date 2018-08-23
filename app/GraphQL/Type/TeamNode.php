@@ -28,6 +28,7 @@ class TeamNode extends BaseNode
             'clients' => static::eloquentConnectionField(GraphQL::type("Client")),
             'projects' => static::eloquentConnectionField(GraphQL::type("Project")),
             'templates' => static::eloquentConnectionField(GraphQL::type("Template")),
+            'invitations' => static::eloquentConnectionField(GraphQL::type("Invitation")),
         ];
     }
 

@@ -16,3 +16,7 @@
   width:100%;
   height:75%;
 }
+
+td,th {
+  padding-right:0.5rem;
+}

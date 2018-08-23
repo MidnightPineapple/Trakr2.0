@@ -68115,7 +68115,7 @@ var Dashboard = function (_Component) {
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'table',
-          { className: 'container-fluid' },
+          null,
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'thead',
             null,
@@ -68145,7 +68145,7 @@ var Dashboard = function (_Component) {
             entries.map(function (_ref3, key) {
               var node = _ref3.node;
 
-              var completedAt = new Date(parseInt(node.completed_at));
+              var completedAt = new Date(parseInt(node.completed_at) * 1000);
               return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'tr',
                 { key: key },
@@ -68235,7 +68235,7 @@ exports = module.exports = __webpack_require__(29)(false);
 
 
 // module
-exports.push([module.i, ".entry-submit {\r\n  width:150px;\r\n  height:150px;\r\n  border: 1px solid black;\r\n  border-radius:75px;\r\n  background-color: #42f48c;\r\n}\r\n\r\n.tasks-display {\r\n  border: 1px solid black;\r\n  border-radius: 10px;\r\n  height:200px;\r\n}\r\n\r\n.tasks-display select {\r\n  width:100%;\r\n  height:75%;\r\n}", ""]);
+exports.push([module.i, ".entry-submit {\r\n  width:150px;\r\n  height:150px;\r\n  border: 1px solid black;\r\n  border-radius:75px;\r\n  background-color: #42f48c;\r\n}\r\n\r\n.tasks-display {\r\n  border: 1px solid black;\r\n  border-radius: 10px;\r\n  height:200px;\r\n}\r\n\r\n.tasks-display select {\r\n  width:100%;\r\n  height:75%;\r\n}\r\n\r\ntd,th {\r\n  padding-right:0.5rem;\r\n}", ""]);
 
 // exports
 

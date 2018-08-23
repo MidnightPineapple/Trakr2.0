@@ -76,6 +76,9 @@ return [
                 // "createFeedback" => App\GraphQL\Mutation\CreateFeedbackMutation::class,
                 // "updateFeedback" => App\GraphQL\Mutation\UpdateFeedbackMutation::class,
                 // "deleteFeedback" => App\GraphQL\Mutation\DeleteFeedbackMutation::class,
+                "createInvitation" => App\GraphQL\Mutation\CreateInvitationMutation::class,
+                "deleteInvitation" => App\GraphQL\Mutation\DeleteInvitationMutation::class,
+                "redeemInvitation" => App\GraphQL\Mutation\RedeemInvitationMutation::class,
             ]
         ]
     ],
@@ -108,6 +111,7 @@ return [
         "Role" => App\GraphQL\Type\RoleNode::class,
         "Template" => App\GraphQL\Type\TemplateNode::class,
         "Permission" => App\GraphQL\Type\PermissionNode::class,
+        "Invitation" => App\GraphQL\Type\InvitationNode::class,
         "CreateClientInput" => App\GraphQL\Type\CreateClientInput::class,
         "CreateClientPayload" => App\GraphQL\Type\CreateClientPayload::class,
         "UpdateClientInput" => App\GraphQL\Type\UpdateClientInput::class,
@@ -154,6 +158,12 @@ return [
         // "UpdateFeedbackPayload" => App\GraphQL\Type\UpdateFeedbackPayload::class,
         // "DeleteFeedbackInput" => App\GraphQL\Type\DeleteFeedbackInput::class,
         // "DeleteFeedbackPayload" => App\GraphQL\Type\DeleteFeedbackPayload::class,
+        "CreateInvitationInput" => App\GraphQL\Type\CreateInvitationInput::class,
+        "CreateInvitationPayload" => App\GraphQL\Type\CreateInvitationPayload::class,
+        "DeleteInvitationInput" => App\GraphQL\Type\DeleteInvitationInput::class,
+        "DeleteInvitationPayload" => App\GraphQL\Type\DeleteInvitationPayload::class,
+        "RedeemInvitationInput" => App\GraphQL\Type\RedeemInvitationInput::class,
+        "RedeemInvitationPayload" => App\GraphQL\Type\RedeemInvitationPayload::class,
     ],
 
     // The prefix for routes. You can remove it by setting it to null.

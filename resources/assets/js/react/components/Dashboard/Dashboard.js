@@ -67,7 +67,7 @@ class Dashboard extends Component {
                 }
               </div>
             </div>
-            <table className="container-fluid">
+            <table>
               <thead>
                 <tr>
                   <th scope="col">Task</th>
@@ -77,7 +77,7 @@ class Dashboard extends Component {
               </thead>
               <tbody>
                 {entries.map( ({node}, key) => {
-                  const completedAt = new Date(parseInt(node.completed_at))
+                  const completedAt = new Date(parseInt(node.completed_at)*1000)
                   return (
                   <tr key={key}>
                     <td>{node.task.name}</td>
