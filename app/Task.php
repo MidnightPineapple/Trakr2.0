@@ -45,11 +45,7 @@ class Task extends BaseModel
 
     public function addUser(User $user) 
     {
-        if(!in_array(
-            $user->id, 
-            $this->project->users->pluck("id")->toArray()
-            )
-        ) throw new \Error("User Not Found In Project");
+        if( !$this->project->hasUser($user) ) throw new \Error("User Not Found In Project");
         return $this->users()->attach($user->id);
     }
 

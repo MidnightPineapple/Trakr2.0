@@ -11,9 +11,10 @@ class EntriesTableSeeder extends Seeder
      */
     public function run()
     {
-        $taskChunks = App\Task::all()->chunk(100);
-        foreach( $taskChunks as $chunk ) {
-            $chunk->each( function($t) {
+        $taskChunks = App\Task::all()->split(10);
+
+        for($i=0; $i<10; $i++) {
+            $taskChunks[$i]->each( function($t) {
                 $taskMembers = $t->users->pluck('id')->toArray(); 
                 $taskId = $t->id;
                 if(count($taskMembers)) {
@@ -25,6 +26,6 @@ class EntriesTableSeeder extends Seeder
                     });
                 }
             });
-        }
+        }  
     }
 }

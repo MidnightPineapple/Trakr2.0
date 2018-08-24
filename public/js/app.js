@@ -9919,7 +9919,7 @@ module.exports = node;
 "use strict";
 /**
  * 
- * @relayHash 3d9e3bae2e4e78ee7f229061ae4d6d3a
+ * @relayHash 2004f609c78fcea507945cd4934ba25a
  */
 
 /* eslint-disable */
@@ -9938,6 +9938,14 @@ export type TeamsPageViewerQueryResponse = {|
           +id: string,
           +name: ?string,
           +description: ?string,
+          +invitations: ?{|
+            +edges: ?$ReadOnlyArray<?{|
+              +node: ?{|
+                +token: ?string,
+                +id: string,
+              |}
+            |}>
+          |},
         |}
       |}>
     |},
@@ -9961,6 +9969,20 @@ query TeamsPageViewerQuery {
           id
           name
           description
+          invitations(last: 100) {
+            edges {
+              node {
+                token
+                id
+                __typename
+              }
+              cursor
+            }
+            pageInfo {
+              hasPreviousPage
+              startCursor
+            }
+          }
           __typename
         }
         cursor
@@ -9984,49 +10006,35 @@ var node /*: ConcreteRequest*/ = function () {
     "args": null,
     "storageKey": null
   },
-      v1 = [{
-    "kind": "LinkedField",
+      v1 = {
+    "kind": "ScalarField",
     "alias": null,
-    "name": "edges",
-    "storageKey": null,
+    "name": "name",
     "args": null,
-    "concreteType": "TeamEdge",
-    "plural": true,
-    "selections": [{
-      "kind": "LinkedField",
-      "alias": null,
-      "name": "node",
-      "storageKey": null,
-      "args": null,
-      "concreteType": "Team",
-      "plural": false,
-      "selections": [v0, {
-        "kind": "ScalarField",
-        "alias": null,
-        "name": "name",
-        "args": null,
-        "storageKey": null
-      }, {
-        "kind": "ScalarField",
-        "alias": null,
-        "name": "description",
-        "args": null,
-        "storageKey": null
-      }, {
-        "kind": "ScalarField",
-        "alias": null,
-        "name": "__typename",
-        "args": null,
-        "storageKey": null
-      }]
-    }, {
-      "kind": "ScalarField",
-      "alias": null,
-      "name": "cursor",
-      "args": null,
-      "storageKey": null
-    }]
-  }, {
+    "storageKey": null
+  },
+      v2 = {
+    "kind": "ScalarField",
+    "alias": null,
+    "name": "description",
+    "args": null,
+    "storageKey": null
+  },
+      v3 = {
+    "kind": "ScalarField",
+    "alias": null,
+    "name": "__typename",
+    "args": null,
+    "storageKey": null
+  },
+      v4 = {
+    "kind": "ScalarField",
+    "alias": null,
+    "name": "cursor",
+    "args": null,
+    "storageKey": null
+  },
+      v5 = {
     "kind": "LinkedField",
     "alias": null,
     "name": "pageInfo",
@@ -10047,22 +10055,47 @@ var node /*: ConcreteRequest*/ = function () {
       "args": null,
       "storageKey": null
     }]
-  }],
-      v2 = {
+  },
+      v6 = [{
+    "kind": "LinkedField",
+    "alias": null,
+    "name": "edges",
+    "storageKey": null,
+    "args": null,
+    "concreteType": "InvitationEdge",
+    "plural": true,
+    "selections": [{
+      "kind": "LinkedField",
+      "alias": null,
+      "name": "node",
+      "storageKey": null,
+      "args": null,
+      "concreteType": "Invitation",
+      "plural": false,
+      "selections": [{
+        "kind": "ScalarField",
+        "alias": null,
+        "name": "token",
+        "args": null,
+        "storageKey": null
+      }, v0, v3]
+    }, v4]
+  }, v5],
+      v7 = {
     "kind": "ScalarField",
     "alias": null,
     "name": "first_name",
     "args": null,
     "storageKey": null
   },
-      v3 = {
+      v8 = {
     "kind": "ScalarField",
     "alias": null,
     "name": "last_name",
     "args": null,
     "storageKey": null
   },
-      v4 = [{
+      v9 = [{
     "kind": "Literal",
     "name": "last",
     "value": 100,
@@ -10073,9 +10106,14 @@ var node /*: ConcreteRequest*/ = function () {
     "operationKind": "query",
     "name": "TeamsPageViewerQuery",
     "id": null,
-    "text": "query TeamsPageViewerQuery {\n  viewer {\n    id\n    teams(last: 100) {\n      edges {\n        node {\n          id\n          name\n          description\n          __typename\n        }\n        cursor\n      }\n      pageInfo {\n        hasPreviousPage\n        startCursor\n      }\n    }\n    first_name\n    last_name\n  }\n}\n",
+    "text": "query TeamsPageViewerQuery {\n  viewer {\n    id\n    teams(last: 100) {\n      edges {\n        node {\n          id\n          name\n          description\n          invitations(last: 100) {\n            edges {\n              node {\n                token\n                id\n                __typename\n              }\n              cursor\n            }\n            pageInfo {\n              hasPreviousPage\n              startCursor\n            }\n          }\n          __typename\n        }\n        cursor\n      }\n      pageInfo {\n        hasPreviousPage\n        startCursor\n      }\n    }\n    first_name\n    last_name\n  }\n}\n",
     "metadata": {
       "connection": [{
+        "count": null,
+        "cursor": null,
+        "direction": "backward",
+        "path": null
+      }, {
         "count": null,
         "cursor": null,
         "direction": "backward",
@@ -10104,8 +10142,35 @@ var node /*: ConcreteRequest*/ = function () {
           "args": null,
           "concreteType": "TeamsConnection",
           "plural": false,
-          "selections": v1
-        }, v2, v3]
+          "selections": [{
+            "kind": "LinkedField",
+            "alias": null,
+            "name": "edges",
+            "storageKey": null,
+            "args": null,
+            "concreteType": "TeamEdge",
+            "plural": true,
+            "selections": [{
+              "kind": "LinkedField",
+              "alias": null,
+              "name": "node",
+              "storageKey": null,
+              "args": null,
+              "concreteType": "Team",
+              "plural": false,
+              "selections": [v0, v1, v2, {
+                "kind": "LinkedField",
+                "alias": "invitations",
+                "name": "__TeamsPage_invitations_connection",
+                "storageKey": null,
+                "args": null,
+                "concreteType": "InvitationsConnection",
+                "plural": false,
+                "selections": v6
+              }, v3]
+            }, v4]
+          }, v5]
+        }, v7, v8]
       }]
     },
     "operation": {
@@ -10125,25 +10190,60 @@ var node /*: ConcreteRequest*/ = function () {
           "alias": null,
           "name": "teams",
           "storageKey": "teams(last:100)",
-          "args": v4,
+          "args": v9,
           "concreteType": "TeamsConnection",
           "plural": false,
-          "selections": v1
+          "selections": [{
+            "kind": "LinkedField",
+            "alias": null,
+            "name": "edges",
+            "storageKey": null,
+            "args": null,
+            "concreteType": "TeamEdge",
+            "plural": true,
+            "selections": [{
+              "kind": "LinkedField",
+              "alias": null,
+              "name": "node",
+              "storageKey": null,
+              "args": null,
+              "concreteType": "Team",
+              "plural": false,
+              "selections": [v0, v1, v2, {
+                "kind": "LinkedField",
+                "alias": null,
+                "name": "invitations",
+                "storageKey": "invitations(last:100)",
+                "args": v9,
+                "concreteType": "InvitationsConnection",
+                "plural": false,
+                "selections": v6
+              }, {
+                "kind": "LinkedHandle",
+                "alias": null,
+                "name": "invitations",
+                "args": v9,
+                "handle": "connection",
+                "key": "TeamsPage_invitations",
+                "filters": []
+              }, v3]
+            }, v4]
+          }, v5]
         }, {
           "kind": "LinkedHandle",
           "alias": null,
           "name": "teams",
-          "args": v4,
+          "args": v9,
           "handle": "connection",
           "key": "TeamsPage_teams",
           "filters": []
-        }, v2, v3]
+        }, v7, v8]
       }]
     }
   };
 }();
 // prettier-ignore
-node /*: any*/.hash = '4248488963a8f34878163bd6b9dd3155';
+node /*: any*/.hash = '6669c3cc1503925a5338fa0abe080385';
 module.exports = node;
 
 /***/ }),
@@ -65390,19 +65490,19 @@ var Router = function (_Component) {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'container' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: '/', exact: true, render: function render(props) {
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["d" /* Route */], { path: '/', exact: true, render: function render(props) {
               return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Redirecter, _extends({}, props, { appState: appState }));
             } }),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: '/dashboard', render: function render(props) {
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["d" /* Route */], { path: '/dashboard', render: function render(props) {
               return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components__["a" /* Dashboard */], _extends({}, props, { appState: appState }));
             } }),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: '/teams', render: function render(props) {
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["d" /* Route */], { path: '/teams', render: function render(props) {
               return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components__["d" /* TeamsPage */], _extends({}, props, { appState: appState }));
             } }),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: '/projects', render: function render(props) {
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["d" /* Route */], { path: '/projects', render: function render(props) {
               return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components__["b" /* ProjectsPage */], _extends({}, props, { appState: appState }));
             } }),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: '/tasks', render: function render(props) {
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["d" /* Route */], { path: '/tasks', render: function render(props) {
               return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components__["c" /* TaskSelectionPage */], _extends({}, props, { appState: appState }));
             } })
         )
@@ -65429,10 +65529,10 @@ var Redirecter = function (_Component2) {
     value: function render() {
       var appState = this.props.appState;
 
-      if (!appState.teamId) return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Redirect */], { to: { pathname: "/teams" } });
-      if (!appState.projectId) return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Redirect */], { to: { pathname: "/projects" } });
-      if (!appState.taskId) return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Redirect */], { to: { pathname: "/tasks" } });
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Redirect */], { to: { pathname: "/dashboard" } });
+      if (!appState.teamId) return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Redirect */], { to: { pathname: "/teams" } });
+      if (!appState.projectId) return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Redirect */], { to: { pathname: "/projects" } });
+      if (!appState.taskId) return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Redirect */], { to: { pathname: "/tasks" } });
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Redirect */], { to: { pathname: "/dashboard" } });
     }
   }]);
 
@@ -65449,7 +65549,7 @@ var Redirecter = function (_Component2) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__HashRouter__ = __webpack_require__(255);
 /* unused harmony reexport HashRouter */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Link__ = __webpack_require__(129);
-/* unused harmony reexport Link */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_2__Link__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__ = __webpack_require__(256);
 /* unused harmony reexport MemoryRouter */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__NavLink__ = __webpack_require__(258);
@@ -65457,9 +65557,9 @@ var Redirecter = function (_Component2) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Prompt__ = __webpack_require__(260);
 /* unused harmony reexport Prompt */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Redirect__ = __webpack_require__(262);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_6__Redirect__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_6__Redirect__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Route__ = __webpack_require__(130);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_7__Route__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_7__Route__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Router__ = __webpack_require__(92);
 /* unused harmony reexport Router */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__StaticRouter__ = __webpack_require__(264);
@@ -67997,6 +68097,7 @@ module.exports = hoistNonReactStatics;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib__ = __webpack_require__(63);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_relay__ = __webpack_require__(40);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_relay___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react_relay__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_router_dom__ = __webpack_require__(247);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -68006,6 +68107,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -68068,7 +68170,17 @@ var Dashboard = function (_Component) {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'lead' },
-          'ProjectName / TeamName'
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            __WEBPACK_IMPORTED_MODULE_4_react_router_dom__["b" /* Link */],
+            { to: '/projects' },
+            'ChangeProject'
+          ),
+          ' / ',
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            __WEBPACK_IMPORTED_MODULE_4_react_router_dom__["b" /* Link */],
+            { to: '/teams' },
+            ' ChangeTeam '
+          )
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
@@ -70514,12 +70626,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-function MutationFactory(mutation, config) {
+function MutationFactory(mutation) {
+    var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
     return function (input) {
         return new Promise(function (resolve, reject) {
             Object(__WEBPACK_IMPORTED_MODULE_0_react_relay__["commitMutation"])(__WEBPACK_IMPORTED_MODULE_1__environment__["a" /* default */], _extends({}, config, {
                 mutation: mutation,
-                variables: { input: input },
+                variables: { input: _extends({ clientMutationId: "" }, input) },
                 onCompleted: function onCompleted(response) {
                     return resolve(response);
                 },
@@ -70624,7 +70738,7 @@ var TeamsPage = function (_Component) {
 /* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_3__lib__["a" /* QueryRenderer */])(TeamsPage, function () {
   var node = __webpack_require__(140);
 
-  if (node.hash && node.hash !== '4248488963a8f34878163bd6b9dd3155') {
+  if (node.hash && node.hash !== '6669c3cc1503925a5338fa0abe080385') {
     console.error('The definition of \'TeamsPageViewerQuery\' appears to have changed. Run `relay-compiler` to update the generated files to receive the expected data.');
   }
 

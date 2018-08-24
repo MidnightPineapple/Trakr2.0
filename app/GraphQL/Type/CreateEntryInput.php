@@ -17,6 +17,7 @@ class CreateEntryInput extends BaseInputType
     {
         return [
             'description' => [ 'type' => Type::string() ],
+            "task_id" => [ "type" => Type::nonNull(Type::id()) ]
         ];
     }
 }

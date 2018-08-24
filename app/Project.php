@@ -38,13 +38,13 @@ class Project extends BaseModel
 
     public function addUser(User $user) 
     {
-        if(!in_array(
-            $user->id, 
-            $this->division->client->team->users->pluck("id")->toArray()
-            )
-        ) throw new \Error("User Not Found In Team");
+        if( !$this->division->client->team->hasUser($user) ) throw new \Error("User Not Found In Team");
         return $this->users()->attach($user->id);
     }
 
+    public function hasUser(User $user) 
+    {
+        return $this->users->pluck("id")->search($user->id) !== false;
+    }
 
 }

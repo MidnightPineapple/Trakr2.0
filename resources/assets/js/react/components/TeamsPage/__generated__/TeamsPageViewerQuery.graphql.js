@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 3d9e3bae2e4e78ee7f229061ae4d6d3a
+ * @relayHash 2004f609c78fcea507945cd4934ba25a
  */
 
 /* eslint-disable */
@@ -19,6 +19,14 @@ export type TeamsPageViewerQueryResponse = {|
           +id: string,
           +name: ?string,
           +description: ?string,
+          +invitations: ?{|
+            +edges: ?$ReadOnlyArray<?{|
+              +node: ?{|
+                +token: ?string,
+                +id: string,
+              |}
+            |}>
+          |},
         |}
       |}>
     |},
@@ -43,6 +51,20 @@ query TeamsPageViewerQuery {
           id
           name
           description
+          invitations(last: 100) {
+            edges {
+              node {
+                token
+                id
+                __typename
+              }
+              cursor
+            }
+            pageInfo {
+              hasPreviousPage
+              startCursor
+            }
+          }
           __typename
         }
         cursor
@@ -66,14 +88,67 @@ var v0 = {
   "args": null,
   "storageKey": null
 },
-v1 = [
+v1 = {
+  "kind": "ScalarField",
+  "alias": null,
+  "name": "name",
+  "args": null,
+  "storageKey": null
+},
+v2 = {
+  "kind": "ScalarField",
+  "alias": null,
+  "name": "description",
+  "args": null,
+  "storageKey": null
+},
+v3 = {
+  "kind": "ScalarField",
+  "alias": null,
+  "name": "__typename",
+  "args": null,
+  "storageKey": null
+},
+v4 = {
+  "kind": "ScalarField",
+  "alias": null,
+  "name": "cursor",
+  "args": null,
+  "storageKey": null
+},
+v5 = {
+  "kind": "LinkedField",
+  "alias": null,
+  "name": "pageInfo",
+  "storageKey": null,
+  "args": null,
+  "concreteType": "PageInfo",
+  "plural": false,
+  "selections": [
+    {
+      "kind": "ScalarField",
+      "alias": null,
+      "name": "hasPreviousPage",
+      "args": null,
+      "storageKey": null
+    },
+    {
+      "kind": "ScalarField",
+      "alias": null,
+      "name": "startCursor",
+      "args": null,
+      "storageKey": null
+    }
+  ]
+},
+v6 = [
   {
     "kind": "LinkedField",
     "alias": null,
     "name": "edges",
     "storageKey": null,
     "args": null,
-    "concreteType": "TeamEdge",
+    "concreteType": "InvitationEdge",
     "plural": true,
     "selections": [
       {
@@ -82,83 +157,40 @@ v1 = [
         "name": "node",
         "storageKey": null,
         "args": null,
-        "concreteType": "Team",
+        "concreteType": "Invitation",
         "plural": false,
         "selections": [
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "name": "token",
+            "args": null,
+            "storageKey": null
+          },
           v0,
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "name": "name",
-            "args": null,
-            "storageKey": null
-          },
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "name": "description",
-            "args": null,
-            "storageKey": null
-          },
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "name": "__typename",
-            "args": null,
-            "storageKey": null
-          }
+          v3
         ]
       },
-      {
-        "kind": "ScalarField",
-        "alias": null,
-        "name": "cursor",
-        "args": null,
-        "storageKey": null
-      }
+      v4
     ]
   },
-  {
-    "kind": "LinkedField",
-    "alias": null,
-    "name": "pageInfo",
-    "storageKey": null,
-    "args": null,
-    "concreteType": "PageInfo",
-    "plural": false,
-    "selections": [
-      {
-        "kind": "ScalarField",
-        "alias": null,
-        "name": "hasPreviousPage",
-        "args": null,
-        "storageKey": null
-      },
-      {
-        "kind": "ScalarField",
-        "alias": null,
-        "name": "startCursor",
-        "args": null,
-        "storageKey": null
-      }
-    ]
-  }
+  v5
 ],
-v2 = {
+v7 = {
   "kind": "ScalarField",
   "alias": null,
   "name": "first_name",
   "args": null,
   "storageKey": null
 },
-v3 = {
+v8 = {
   "kind": "ScalarField",
   "alias": null,
   "name": "last_name",
   "args": null,
   "storageKey": null
 },
-v4 = [
+v9 = [
   {
     "kind": "Literal",
     "name": "last",
@@ -171,9 +203,15 @@ return {
   "operationKind": "query",
   "name": "TeamsPageViewerQuery",
   "id": null,
-  "text": "query TeamsPageViewerQuery {\n  viewer {\n    id\n    teams(last: 100) {\n      edges {\n        node {\n          id\n          name\n          description\n          __typename\n        }\n        cursor\n      }\n      pageInfo {\n        hasPreviousPage\n        startCursor\n      }\n    }\n    first_name\n    last_name\n  }\n}\n",
+  "text": "query TeamsPageViewerQuery {\n  viewer {\n    id\n    teams(last: 100) {\n      edges {\n        node {\n          id\n          name\n          description\n          invitations(last: 100) {\n            edges {\n              node {\n                token\n                id\n                __typename\n              }\n              cursor\n            }\n            pageInfo {\n              hasPreviousPage\n              startCursor\n            }\n          }\n          __typename\n        }\n        cursor\n      }\n      pageInfo {\n        hasPreviousPage\n        startCursor\n      }\n    }\n    first_name\n    last_name\n  }\n}\n",
   "metadata": {
     "connection": [
+      {
+        "count": null,
+        "cursor": null,
+        "direction": "backward",
+        "path": null
+      },
       {
         "count": null,
         "cursor": null,
@@ -210,10 +248,49 @@ return {
             "args": null,
             "concreteType": "TeamsConnection",
             "plural": false,
-            "selections": v1
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "name": "edges",
+                "storageKey": null,
+                "args": null,
+                "concreteType": "TeamEdge",
+                "plural": true,
+                "selections": [
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "name": "node",
+                    "storageKey": null,
+                    "args": null,
+                    "concreteType": "Team",
+                    "plural": false,
+                    "selections": [
+                      v0,
+                      v1,
+                      v2,
+                      {
+                        "kind": "LinkedField",
+                        "alias": "invitations",
+                        "name": "__TeamsPage_invitations_connection",
+                        "storageKey": null,
+                        "args": null,
+                        "concreteType": "InvitationsConnection",
+                        "plural": false,
+                        "selections": v6
+                      },
+                      v3
+                    ]
+                  },
+                  v4
+                ]
+              },
+              v5
+            ]
           },
-          v2,
-          v3
+          v7,
+          v8
         ]
       }
     ]
@@ -238,22 +315,70 @@ return {
             "alias": null,
             "name": "teams",
             "storageKey": "teams(last:100)",
-            "args": v4,
+            "args": v9,
             "concreteType": "TeamsConnection",
             "plural": false,
-            "selections": v1
+            "selections": [
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "name": "edges",
+                "storageKey": null,
+                "args": null,
+                "concreteType": "TeamEdge",
+                "plural": true,
+                "selections": [
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "name": "node",
+                    "storageKey": null,
+                    "args": null,
+                    "concreteType": "Team",
+                    "plural": false,
+                    "selections": [
+                      v0,
+                      v1,
+                      v2,
+                      {
+                        "kind": "LinkedField",
+                        "alias": null,
+                        "name": "invitations",
+                        "storageKey": "invitations(last:100)",
+                        "args": v9,
+                        "concreteType": "InvitationsConnection",
+                        "plural": false,
+                        "selections": v6
+                      },
+                      {
+                        "kind": "LinkedHandle",
+                        "alias": null,
+                        "name": "invitations",
+                        "args": v9,
+                        "handle": "connection",
+                        "key": "TeamsPage_invitations",
+                        "filters": []
+                      },
+                      v3
+                    ]
+                  },
+                  v4
+                ]
+              },
+              v5
+            ]
           },
           {
             "kind": "LinkedHandle",
             "alias": null,
             "name": "teams",
-            "args": v4,
+            "args": v9,
             "handle": "connection",
             "key": "TeamsPage_teams",
             "filters": []
           },
-          v2,
-          v3
+          v7,
+          v8
         ]
       }
     ]
@@ -261,5 +386,5 @@ return {
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '4248488963a8f34878163bd6b9dd3155';
+(node/*: any*/).hash = '6669c3cc1503925a5338fa0abe080385';
 module.exports = node;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import "./index.css"
 import { QueryRenderer } from '../../lib';
 import { graphql } from 'react-relay';
+import { Link } from "react-router-dom";
 
 class Dashboard extends Component {
 
@@ -43,7 +44,7 @@ class Dashboard extends Component {
     return (
         <div>
             <div className="lead">
-              ProjectName / TeamName
+              <Link to="/projects">ChangeProject</Link> / <Link to="/teams"> ChangeTeam </Link>
             </div>
             <div className="row tasks">
               <div className="col-sm-4">

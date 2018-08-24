@@ -6,6 +6,7 @@ use GraphQL\Type\Definition\Type;
 use GraphQL;
 
 use App\Entry;
+use App\Task;
 use App\GraphQL\Field\DateField;
 
 class EntryNode extends BaseNode
@@ -34,5 +35,9 @@ class EntryNode extends BaseNode
     public function resolveById($id)
     {
         return Entry::find($id);
+    }
+
+    public function resolveTaskField($root, $args) {
+        return Task::find($root->task_id);
     }
 }

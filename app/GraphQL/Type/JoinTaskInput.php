@@ -6,17 +6,18 @@ use GraphQL\Type\Definition\Type;
 use Folklore\GraphQL\Relay\Support\InputType as BaseInputType;
 use GraphQL;
 
-class RedeemInvitationInput extends BaseInputType
+class JoinTaskInput extends BaseInputType
 {
     protected $attributes = [
-        'name' => 'RedeemInvitationInput',
+        'name' => 'JoinTaskInput',
         'description' => 'A relay mutation input type'
     ];
 
     protected function fields()
     {
-        return [ 
-            "token" => [ "type" => Type::nonNull(Type::string()) ]
+        return [
+            'user_id' => [ "type" => Type::nonNull(Type::id()) ],
+            'task_id' => [ "type" => Type::nonNull(Type::id()) ],
         ];
     }
 }

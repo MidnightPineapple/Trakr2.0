@@ -43,9 +43,10 @@ class Entry extends BaseModel
         return $this->save();
     }
 
-    public function date()
+    public function complete()
     {
-        $this->completed_at = Carbon::now();
+        if(!$this->completed_at) $this->completed_at = Carbon::now();
+        return $this->save();
     }
 
 }

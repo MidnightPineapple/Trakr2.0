@@ -51,4 +51,9 @@ class Team extends BaseModel
         return $invite;
     }
 
+    public function hasUser(User $user) 
+    {
+        return $this->users->pluck('id')->search($user->id) !== false;
+    }
+
 }

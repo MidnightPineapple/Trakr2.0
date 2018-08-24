@@ -6,21 +6,21 @@ use GraphQL\Type\Definition\Type;
 use Folklore\GraphQL\Relay\Support\PayloadType as BasePayloadType;
 use GraphQL;
 
-class RedeemInvitationPayload extends BasePayloadType
+class CompleteEntryPayload extends BasePayloadType
 {
     protected $attributes = [
-        'name' => 'RedeemInvitationPayload',
+        'name' => 'CompleteEntryPayload',
         'description' => 'A relay mutation payload type'
     ];
 
     protected function fields()
     {
         return [
-            "team" => [ "type" => GraphQL::type("Team") ],
+            "entry" => [ "type" => GraphQL::type("Entry") ]
         ];
     }
 
-    protected function resolveTeamField($root, $args)
+    protected function resolveEntryField($root) 
     {
         return $root;
     }

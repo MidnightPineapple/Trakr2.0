@@ -4,7 +4,6 @@ namespace App\GraphQL\Mutation;
 
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ResolveInfo;
-use Folklore\GraphQL\Relay\Support\Mutation as BaseMutation;
 use GraphQL;
 
 use App\Task;
@@ -31,7 +30,7 @@ class CreateEntryMutation extends BaseMutation
     {
         return [
             "input.task_id" => [ "required" ], 
-            "input.description" => [ "required", "string" ]
+            "input.description" => [ "string" ]
         ];
     }
     
@@ -39,9 +38,12 @@ class CreateEntryMutation extends BaseMutation
     {
         $input = $args['input'];
 
-        $entry = (new Entry)->fill($input);
-        $entry->date();
-        Task::findByNodeId($input['task_id'])->entries()->save($entry);
+        $entry = Entry::make($input);
+        $entry->user()->associate($context->id);
+
+        $taskId = static::decodeNodeId($input['task_id'])['id'];
+        $entry->task()->associate($taskId);
+        $entry->save();
         return $entry;
     }
 }

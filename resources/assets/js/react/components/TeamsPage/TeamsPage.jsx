@@ -43,6 +43,14 @@ query TeamsPageViewerQuery {
           id
           name 
           description 
+          invitations (last:100) @connection(key:"TeamsPage_invitations", filters:[]) {
+            edges {
+              node {
+                token 
+                id
+              }
+            }
+          }
         }
       }
     }

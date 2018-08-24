@@ -27,6 +27,18 @@ type ClientsConnection {
 }
 
 # A relay mutation input type
+input CompleteEntryInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type CompleteEntryPayload {
+  entry: Entry
+  clientMutationId: String!
+}
+
+# A relay mutation input type
 input CreateClientInput {
   name: String
   description: String
@@ -57,12 +69,25 @@ type CreateDivisionPayload {
 # A relay mutation input type
 input CreateEntryInput {
   description: String
+  task_id: ID!
   clientMutationId: String!
 }
 
 # A relay mutation payload type
 type CreateEntryPayload {
   entry: Entry
+  clientMutationId: String!
+}
+
+# A relay mutation input type
+input CreateInvitationInput {
+  team_id: ID!
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type CreateInvitationPayload {
+  invitation: Invitation
   clientMutationId: String!
 }
 
@@ -143,6 +168,18 @@ input DeleteEntryInput {
 # A relay mutation payload type
 type DeleteEntryPayload {
   entry: Entry
+  clientMutationId: String!
+}
+
+# A relay mutation input type
+input DeleteInvitationInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type DeleteInvitationPayload {
+  invitation: Invitation
   clientMutationId: String!
 }
 
@@ -271,6 +308,57 @@ type Feedback implements Node {
   user: User
 }
 
+# A relay node type
+type Invitation implements Node {
+  # A relay node id field
+  id: ID!
+  team: Team
+  token: String
+
+  # A field for displaying Carbon dates
+  created_at(format: String, getter: String): String
+
+  # A field for displaying Carbon dates
+  updated_at(format: String, getter: String): String
+}
+
+type InvitationEdge {
+  cursor: ID!
+  node: Invitation
+}
+
+type InvitationsConnection {
+  total: Int
+  edges: [InvitationEdge]
+  pageInfo: PageInfo
+}
+
+# A relay mutation input type
+input JoinProjectInput {
+  user_id: ID!
+  project_id: ID!
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type JoinProjectPayload {
+  project: Project
+  clientMutationId: String!
+}
+
+# A relay mutation input type
+input JoinTaskInput {
+  user_id: ID!
+  task_id: ID!
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type JoinTaskPayload {
+  task: Task
+  clientMutationId: String!
+}
+
 type Mutation {
   # A relay mutation that updates user data
   updateUser(input: UpdateUserInput!): UpdateUserPayload
@@ -315,6 +403,9 @@ type Mutation {
   deleteProject(input: DeleteProjectInput!): DeleteProjectPayload
 
   # A relay mutation
+  joinProject(input: JoinProjectInput!): JoinProjectPayload
+
+  # A relay mutation
   createTask(input: CreateTaskInput!): CreateTaskPayload
 
   # A relay mutation
@@ -324,6 +415,9 @@ type Mutation {
   deleteTask(input: DeleteTaskInput!): DeleteTaskPayload
 
   # A relay mutation
+  joinTask(input: JoinTaskInput!): JoinTaskPayload
+
+  # A relay mutation
   createEntry(input: CreateEntryInput!): CreateEntryPayload
 
   # A relay mutation
@@ -331,6 +425,18 @@ type Mutation {
 
   # A relay mutation
   deleteEntry(input: DeleteEntryInput!): DeleteEntryPayload
+
+  # A relay mutation
+  completeEntry(input: CompleteEntryInput!): CompleteEntryPayload
+
+  # A relay mutation
+  createInvitation(input: CreateInvitationInput!): CreateInvitationPayload
+
+  # A relay mutation
+  deleteInvitation(input: DeleteInvitationInput!): DeleteInvitationPayload
+
+  # A relay mutation
+  redeemInvitation(input: RedeemInvitationInput!): RedeemInvitationPayload
 }
 
 # The relay node interface
@@ -415,6 +521,18 @@ type Query {
   node(id: ID!): Node
 }
 
+# A relay mutation input type
+input RedeemInvitationInput {
+  token: String!
+  clientMutationId: String!
+}
+
+# A relay mutation payload type
+type RedeemInvitationPayload {
+  team: Team
+  clientMutationId: String!
+}
+
 # A relay node type for dispaying user roles
 type Role implements Node {
   # A relay node id field
@@ -491,6 +609,7 @@ type Team implements Node {
   clients(first: Int, last: Int, after: String, before: String): ClientsConnection
   projects(first: Int, last: Int, after: String, before: String): ProjectsConnection
   templates(first: Int, last: Int, after: String, before: String): TemplatesConnection
+  invitations(first: Int, last: Int, after: String, before: String): InvitationsConnection
 }
 
 type TeamEdge {

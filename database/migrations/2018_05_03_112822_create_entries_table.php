@@ -20,7 +20,7 @@ class CreateEntriesTable extends Migration
             $table->text('description')->nullable();
             $table->boolean('archived')->default(false);
             $table->boolean('approved')->default(false);
-            $table->timestamp('completed_at');
+            $table->timestamp('completed_at')->nullable();
             $table->timestamps();
         });
     }
