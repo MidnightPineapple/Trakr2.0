@@ -57,7 +57,7 @@ export default class App extends Component {
     window.location.replace(url.toString());
   }
 
-  render() {
+  render() { 
 
     const { isAuthenticated } = this.state;
 
