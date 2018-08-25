@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 class Entry extends BaseModel
 {
-
+ 
     protected $fillable = [ "description" ];
 
     public function tags()
