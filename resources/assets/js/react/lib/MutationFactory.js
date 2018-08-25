@@ -7,7 +7,7 @@ export default function MutationFactory(mutation, config = {}) {
             commitMutation( environment, {
                 ...config,
                 mutation,
-                variables: { input: { clientMutationId: "", ...input } },
+                variables: { input: { clientMutationId: "clientMutation", ...input } },
                 onCompleted: response => resolve(response),
                 onError: error => reject(error)
             })

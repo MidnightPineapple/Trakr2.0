@@ -28,7 +28,7 @@ class CompleteEntryMutation extends BaseMutation
     
     public function resolve($root, $args, $context, ResolveInfo $info)
     {
-        $e = Entry::findNodeById($args['input']['id']);
+        $e = Entry::findByNodeId($args['input']['id']);
         if($e->user->id !== $context->id) return;
         $e->complete();
         return $e;

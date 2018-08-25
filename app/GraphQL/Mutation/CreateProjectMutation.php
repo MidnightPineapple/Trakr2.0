@@ -32,7 +32,7 @@ class CreateProjectMutation extends BaseMutation
         return [
             "input.division_id" => [ "required" ], 
             "input.name" => [ "required", "string" ],
-            "input.description" => [ "required", "string" ]
+            // "input.description" => [ "required", "string" ]
         ];
     }
 

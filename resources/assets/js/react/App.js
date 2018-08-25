@@ -30,12 +30,15 @@ export default class App extends Component {
   setTeamId(id){
     const newState = Object.assign({}, this.state.appState)
     newState.teamId = id;
+    newState.projectId = null;
+    newState.taskId = null;
     this.setState({appState: newState})
   }
 
   setProjectId(id){
     const newState = Object.assign({}, this.state.appState)
     newState.projectId = id;
+    newState.taskId = null;
     this.setState({appState: newState})
   }
 

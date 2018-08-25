@@ -10,5 +10,3 @@ mutation JoinTaskMutation($input: JoinTaskInput!) {
     }
 }
 `)(input);
-
-// * maybe need to get the new username that was added to the task...

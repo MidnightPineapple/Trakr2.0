@@ -32,7 +32,7 @@ class CreateTaskMutation extends BaseMutation
         return [
             "input.project_id" => [ "required" ], 
             "input.name" => [ "required", "string" ],
-            "input.description" => [ "required", "string" ]
+            // "input.description" => [ "string" ]
         ];
     }
     

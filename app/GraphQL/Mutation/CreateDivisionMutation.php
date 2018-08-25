@@ -7,6 +7,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL;
 
 use App\Division;
+use App\Client;
 
 class CreateDivisionMutation extends BaseMutation
 {
@@ -29,7 +30,7 @@ class CreateDivisionMutation extends BaseMutation
         return [
             "input.client_id" => [ "required" ],
             "input.name" => [ "string", "required" ],
-            "input.description" => [ "required", "string" ], 
+            // "input.description" => [ "required", "string" ], 
         ];
     }
     
@@ -38,7 +39,6 @@ class CreateDivisionMutation extends BaseMutation
         $input = $args['input'];
         $division = new Division();
         $client = Client::findByNodeId($input['client_id']);
-        unset($input['client_id']);
         $division->fill($input);
         $client->divisions()->save($division);
         return $division;

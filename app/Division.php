@@ -2,10 +2,11 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Division extends Model
+class Division extends BaseModel
 {
+
+    protected $fillable = [ "name", "description", "archived" ];
+
     public function client() 
     {
         return $this->belongsTo(Client::class);

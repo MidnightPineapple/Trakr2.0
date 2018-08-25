@@ -31,7 +31,7 @@ class CreateClientMutation extends BaseMutation
         return [
             "input.team_id" => [ "required" ],
             "input.name" => [ "required", "string" ],
-            "input.description" => [ "required", "string" ]
+            // "input.description" => [ "string" ]
         ];
     }
     

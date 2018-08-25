@@ -4,7 +4,7 @@ class ButtonBox extends Component {
   render() {
 
     return (
-      <div className = "col-md-6 col-lg-3">
+      <div className = "">
         <button onClick={() => this.props.onClick()} className=" team-display">{this.props.title}</button>
       </div>
     );

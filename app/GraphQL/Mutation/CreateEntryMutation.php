@@ -30,7 +30,7 @@ class CreateEntryMutation extends BaseMutation
     {
         return [
             "input.task_id" => [ "required" ], 
-            "input.description" => [ "string" ]
+            "input.description" => [ ] // ! shit this belongs in completeEntry not createEntry
         ];
     }
     

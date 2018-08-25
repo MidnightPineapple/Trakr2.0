@@ -33,6 +33,7 @@ class DateField extends BaseField
 
     public function resolve($root, $args, $content, ResolveInfo $info)
     {
+        if($root[$info->fieldName] === null) return null;
         $date = Carbon::parse($root[$info->fieldName]);
         if( !array_key_exists("format", $args) && !array_key_exists("getter", $args) ) {
             return $date->toCookieString();

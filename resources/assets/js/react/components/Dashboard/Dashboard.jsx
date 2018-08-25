@@ -3,6 +3,7 @@ import "./index.css"
 import { QueryRenderer } from '../../lib';
 import { graphql } from 'react-relay';
 import { Link } from "react-router-dom";
+import { createTask, createEntry, completeEntry } from '../../mutations';
 
 class Dashboard extends Component {
 
@@ -12,6 +13,7 @@ class Dashboard extends Component {
     this.state = {
       newTaskInputVisible:false,
       newTaskName:"",
+      entryDescription:"",
     }
   }
 
@@ -27,19 +29,44 @@ class Dashboard extends Component {
     this.setState({newTaskName:e.target.value})
   }
 
-  handleSubmitNewTask() {
-    // new task mutation here
+  handleSubmitNewTask(e) {
+    e.preventDefault();
+    const { projectId } = this.props.appState;
+    createTask({ name:this.state.newTaskName, project_id:projectId}, projectId)
+    .then(this.setState({ showNewTaskEntry:false, newTaskName:""}))
+  }
+
+  handleToggleEntry(activeEntry){
+    const { taskId } = this.props.appState;
+    console.log(activeEntry)
+    if(activeEntry) completeEntry(activeEntry.id, taskId);
+    else createEntry({ task_id:taskId, description: ""}, taskId);
+
   }
 
   render() {
 
-    const entries = this.props.project.tasks.edges.map( ({node}) => node.entries.edges )
+    const { taskId } = this.props.appState;
+    const task = this.props.project.tasks.edges.find(({node})=>node.id === taskId).node;
+    console.log(task);
+    let activeEntry = task.entries?task.entries.edges.find(({node}) => node.completed_at === null):null  // * honestly i should move this to the server
+    if(activeEntry) activeEntry = activeEntry.node
+
+    const entries = this.props.project.tasks.edges.map( ({node}) => !!node.entries?node.entries.edges:[] )
     .reduce((ag, v) => [...ag, ...v] , [])
-    .sort( (e1,e2) => {
+    .sort( ({node:e1},{node:e2}) => {
       if(e1.completed_at > e2.completed_at) return -1;
       if(e1.completed_at < e2.completed_at) return 1;
       return 0;
     })
+  
+
+    console.log(
+      entries,  
+      this.props.project.tasks.edges.map( ({node}) => !!node.entries?node.entries.edges:[] ), 
+      this.props.project.tasks.edges.map( ({node}) => !!node.entries?node.entries.edges:[] )
+      .reduce((ag, v) => [...ag, ...v] , []).sort()
+    )
 
     return (
         <div>
@@ -48,21 +75,21 @@ class Dashboard extends Component {
             </div>
             <div className="row tasks">
               <div className="col-sm-4">
-                <button className="entry-submit">&#9654;</button>
+                <button className="entry-submit" onClick={() => this.handleToggleEntry(activeEntry)}>&#9654;</button>
               </div>
               <div className="col-sm-8 tasks-display">
                 <select multiple set={1} onChange={this.handleChangeTask.bind(this)}>
                   {this.props.project.tasks.edges.map( ({node}, key) => (
-                    <option value={node.id} key={key}>{node.name}</option>
+                    <option value={node.id} key={key} selected={this.props.appState.taskId===node.id}>{node.name}</option>
                   ))}
                 </select>
                 {
                   this.state.newTaskInputVisible
                   ? (
-                    <div>
+                    <form onSubmit={this.handleSubmitNewTask.bind(this)}>
                       <input onChange={this.handleInputNewTask.bind(this)} value={this.state.newTaskName} placeholder="New Task Name" />
                       <button onClick={this.handleSubmitNewTask.bind(this)}>+</button>
-                    </div>
+                    </form>
                   )
                   : <button onClick={this.handleClickNewTask.bind(this)}>New Task</button>
                 }

@@ -2,15 +2,7 @@ import React, { Component } from 'react';
 import "./index.css";
 import { QueryRenderer } from '../../lib';
 import { graphql } from 'react-relay';
-
-const tasks = { edges: [
-  { node: { id:"ASDF1", name:"Task Name 1", description:"I thinnk im doing sth" } },
-  { node: { id:"ASDF2", name:"Task Name 2", description:"I thinnk im doing sth" } },
-  { node: { id:"ASDF3", name:"Task Name 3", description:"I thinnk im doing sth" } },
-  { node: { id:"ASDF4", name:"Task Name 4", description:"I thinnk im doing sth" } },
-  { node: { id:"ASDF5", name:"Task Name 5", description:"I thinnk im doing sth" } },
-  { node: { id:"ASDF6", name:"Task Name 6", description:"I thinnk im doing sth" } },
-]}
+import { createTask } from '../../mutations';
 
 class TaskSelectionPage extends Component {
 
@@ -37,7 +29,9 @@ class TaskSelectionPage extends Component {
 
   handleSubmitNewTask(e) {
     e.preventDefault();
-    // mutation here
+    const { projectId } = this.props.appState;
+    createTask({ name:this.state.newTask, project_id:projectId}, projectId)
+    .then(this.setState({ showNewTaskEntry:false, newTask:""}))
   }
 
   render() {
