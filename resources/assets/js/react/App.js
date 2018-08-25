@@ -49,7 +49,7 @@ export default class App extends Component {
   }
 
   authorize() {
-    const url = new URL(authUri, serverUrl)
+    const url = new URL(authUri, window.location.host)
     url.searchParams.set('client_id', authClientId);
     url.searchParams.set('redirect_uri', authRedirect);
     url.searchParams.set('response_type', "token");
