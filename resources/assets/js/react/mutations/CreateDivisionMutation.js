@@ -26,6 +26,7 @@ mutation CreateDivisionMutation($input: CreateDivisionInput!) {
         const newNode = store.getRootField("createDivision").getLinkedRecord("division")
         const parent = store.get(parentID)
         const connection = ConnectionHandler.getConnection(parent, "ProjectsPage_divisions")
+        console.log(parentID, parent, connection)
         const newEdge = ConnectionHandler.createEdge(store, connection, newNode, "DivisionEdge");
         if(connection) {
             ConnectionHandler.insertEdgeAfter( connection, newEdge );

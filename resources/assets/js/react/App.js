@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { serverUrl, authUri, authRedirect, authClientId } from './config';
+import { authUri, authRedirect, authClientId, protocol } from './config';
 import { setAccessToken } from './environment';
 import Router from './Router';
 
@@ -49,7 +49,7 @@ export default class App extends Component {
   }
 
   authorize() {
-    const url = new URL(authUri, "https://" + window.location.host)
+    const url = new URL(authUri, protocol + window.location.host)
     url.searchParams.set('client_id', authClientId);
     url.searchParams.set('redirect_uri', authRedirect);
     url.searchParams.set('response_type', "token");
