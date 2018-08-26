@@ -267,7 +267,7 @@ return [
     
     // Config for GraphiQL (https://github.com/graphql/graphiql).
     // To disable GraphiQL, set this to null.
-    'graphiql' => [
+    'graphiql' => env("APP_ENV","development") === "production" ? null : [
         'routes' => '/graphiql',
         'middleware' => [],
         'view' => 'graphql::graphiql',

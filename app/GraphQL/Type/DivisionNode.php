@@ -7,6 +7,7 @@ use GraphQL;
 
 use App\Division;
 use App\GraphQL\Field\DateField;
+use App\Project;
 
 class DivisionNode extends BaseNode
 {
