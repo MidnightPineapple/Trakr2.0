@@ -18,7 +18,7 @@ class CreateTemplatesTable extends Migration
             $table->integer('team_id');
             $table->string('name');
             $table->text('description')->nullable();
-            $table->json('data');
+            $table->longText('data');
             $table->boolean('archived')->default(false);
             $table->timestamps();
         });
